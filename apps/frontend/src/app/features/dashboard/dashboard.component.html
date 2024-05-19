@@ -1,0 +1,12 @@
+<main class="container page">
+  <h1 class="text-center">Welcome {{ authService.currentUser()?.username }}</h1>
+  <mat-card>
+    <mat-card-content>
+      <h2>Info</h2>
+      <hr />
+      <p>Name: {{ authService.currentUser()?.username }}</p>
+      <p>Email: {{ authService.currentUser()?.email }}</p>
+      <p>Role: {{ authService.currentUser()?.role }}</p>
+    </mat-card-content>
+  </mat-card>
+</main>

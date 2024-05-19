@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserRole } from '@nx-angular-nestjs-authentication/models';
 import { Repository } from 'typeorm';
-import { UserRole } from '../shared/enums';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../core/user/user.entity';
 
 @Injectable()
 export class DatabaseSeederService {

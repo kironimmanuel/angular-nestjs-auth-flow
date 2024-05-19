@@ -2,10 +2,13 @@
   "name": "@nx-angular-nestjs-authentication/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "many:dev": "nx run-many --target=serve --all --maxParallel=10 --parallel"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~17.3.0",
+    "@angular/cdk": "^17.3.9",
     "@angular/common": "~17.3.0",
     "@angular/compiler": "~17.3.0",
     "@angular/core": "~17.3.0",

@@ -1,0 +1,24 @@
+<nav class="navbar bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img
+        src="https://www.google.com/s2/favicons?domain=google.com&sz=256"
+        alt=""
+        width="30"
+        height="30"
+        class="d-inline-block align-text-top" />
+      Lorem Ipsum
+    </a>
+    @if(authService.currentUser()){
+    <div class="d-flex align-items-center gap-2">
+      <p>
+        <strong>{{ authService.currentUser()?.username }}</strong>
+      </p>
+      <div class="d-flex">
+        <mat-icon fontIcon="account_circle"></mat-icon>
+      </div>
+      <button mat-flat-button color="primary" type="submit" (click)="authService.logout()">Logout</button>
+    </div>
+    }
+  </div>
+</nav>

@@ -16,17 +16,15 @@
     ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strictPropertyInitialization": false,
     "baseUrl": ".",
     "paths": {
-      "@nx-angular-nestjs-authentication/libs": [
-        "libs/src/index.ts"
+      "@nx-angular-nestjs-authentication/environments": [
+        "libs/environments/src/index.ts"
       ],
       "@nx-angular-nestjs-authentication/models": [
-        "models/src/index.ts"
-      ],
-      "@nx-angular-nestjs-authentication/utils": [
-        "utils/src/index.ts"
-      ],
+        "libs/models/src/index.ts"
+      ]
     }
   },
   "exclude": [
