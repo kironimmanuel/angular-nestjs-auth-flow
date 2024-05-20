@@ -3,11 +3,10 @@ import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
 import { LoginUserDto, RegisterUserDTO, User, UserResponseDTO } from '@nx-angular-nestjs-authentication/models';
-import { AuthType } from '../../../shared/enums/AuthType.enum';
+import { AppRoute, AuthType } from '../../../shared/enums';
 import { JwtService } from './jwt.service';
 
 @Injectable({
-  // It will be available in the root injector, which means that it will be a singleton instance and will be available throughout the application.
   providedIn: 'root',
 })
 export class AuthService {
@@ -31,14 +30,14 @@ export class AuthService {
   login(user: LoginUserDto) {
     return this.http.post<UserResponseDTO>(this.loginUrl, user).subscribe((response) => {
       this.setAuth(response as User);
-      this.router.navigate(['/']);
+      this.router.navigate([AppRoute.DASHBOARD]);
     });
   }
 
   logout() {
     this.jwtService.destroyToken();
     this.currentUser.set(null);
-    this.router.navigate(['/login']);
+    this.router.navigate([AppRoute.LANDING]);
   }
 
   setAuth(user: User): void {

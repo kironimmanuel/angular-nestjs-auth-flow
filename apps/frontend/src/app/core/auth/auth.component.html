@@ -61,9 +61,9 @@
           <p class="text-body-tertiary">By clicking continue, you agree to our Terms of Service and Privacy Policy</p>
           <p>
             @if (authType === 'register') {
-            <a [routerLink]="['/login']">Already have an account?</a>
+            <a [routerLink]="[loginRoute]">Already have an account?</a>
             } @if (authType === 'login') {
-            <a [routerLink]="['/register']">Create an account</a>
+            <a [routerLink]="[registerRoute]">Create an account</a>
             }
           </p>
         </div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { environment } from '@nx-angular-nestjs-authentication/environments';
 import {
   JwtPayloadDTO,
   LoginUserDto,
@@ -79,6 +80,6 @@ export class AuthService {
   }
 
   private generateRefreshJwtToken(payload: JwtPayloadDTO) {
-    return this.jwtService.sign(payload, { expiresIn: '1d' });
+    return this.jwtService.sign(payload, { expiresIn: environment.refreshTokenLifetime });
   }
 }

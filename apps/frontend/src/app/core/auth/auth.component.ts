@@ -5,10 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
 import { LoginUserDto, RegisterUserDTO } from '@nx-angular-nestjs-authentication/models';
-import { AuthType } from '../../shared/enums/AuthType.enum';
+import { AppRoute, AuthType } from '../../shared/enums';
 import { FormErrorStateMatcher, generateRandomEmail, getRandomUsername } from '../../shared/utils';
 import { AuthService } from './services/auth.service';
 
@@ -39,12 +39,10 @@ export class AuthComponent implements OnInit {
   hide = true;
   isSubmitting = false;
   matcher = new FormErrorStateMatcher();
+  loginRoute = AppRoute.LOGIN;
+  registerRoute = AppRoute.REGISTER;
 
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly route: ActivatedRoute, private readonly authService: AuthService) {}
 
   ngOnInit(): void {
     const urlSegments = this.route.snapshot.url;

@@ -6,6 +6,7 @@ import { User } from '@nx-angular-nestjs-authentication/models';
 import { AuthService } from './core/auth/services/auth.service';
 import { FooterComponent } from './core/layout/footer/footer.component';
 import { HeaderComponent } from './core/layout/header/header.component';
+import { AppRoute } from './shared/enums';
 
 @Component({
   standalone: true,
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (event.url !== '/login' && event.url !== '/register') {
+        if (event.url !== AppRoute.LOGIN && event.url !== AppRoute.REGISTER && event.url !== AppRoute.LANDING) {
           this.http.get(`${environment.apiUrl}/user`).subscribe({
             next: (user) => {
               this.authService.currentUser.set(user as User);
