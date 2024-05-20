@@ -1,0 +1,32 @@
+<div
+  (mouseenter)="stopCountDown()"
+  (mouseleave)="countDown()"
+  class="toast-wrapper"
+  [@openClose]="toastService.data && toastService.data.show ? 'open' : 'closed'"
+  [ngClass]="toastService.data?.type">
+  <div class="inner-wrapper">
+    <div class="d-flex gap-2" *ngIf="toastService.data">
+      <ng-container *ngIf="toastService.data.type === successType">
+        <mat-icon fontIcon="check" class="toast-icon"></mat-icon>
+      </ng-container>
+      <ng-container *ngIf="toastService.data.type === errorType">
+        <mat-icon fontIcon="error" class="toast-icon"></mat-icon>
+      </ng-container>
+      <ng-container *ngIf="toastService.data.type === infoType">
+        <mat-icon fontIcon="info" class="toast-icon"></mat-icon>
+      </ng-container>
+      <ng-container *ngIf="toastService.data.type === warningType">
+        <mat-icon fontIcon="warning" class="toast-icon"></mat-icon>
+      </ng-container>
+      <div class="toast-content">
+        <h5 class="toast-title">
+          {{ toastService.data.title }}
+        </h5>
+        <p class="toast-text">
+          {{ toastService.data.content }}
+        </p>
+      </div>
+      <mat-icon fontIcon="close" class="toast-close" (click)="toastService.hide()"></mat-icon>
+    </div>
+  </div>
+</div>

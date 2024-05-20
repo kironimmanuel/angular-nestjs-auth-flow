@@ -3,7 +3,9 @@ import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
 import { LoginUserDto, RegisterUserDTO, User, UserResponseDTO } from '@nx-angular-nestjs-authentication/models';
+import { catchError } from 'rxjs';
 import { AppRoute, AuthType } from '../../../shared/enums';
+import { ToastService } from '../../../shared/services/toast.service';
 import { JwtService } from './jwt.service';
 
 @Injectable({
@@ -18,13 +20,29 @@ export class AuthService {
   constructor(
     private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly toast: ToastService
   ) {}
 
   register(user: RegisterUserDTO) {
-    return this.http.post(this.registerUrl, user).subscribe(() => {
-      this.login({ email: user.email, password: user.password });
-    });
+    return this.http
+      .post(this.registerUrl, user)
+      .pipe(
+        catchError((error) => {
+          this.toast.error({
+            title: 'Error',
+            content: `Registration failed. Please try again.`,
+          });
+          throw error;
+        })
+      )
+      .subscribe(() => {
+        this.toast.success({
+          title: 'Welcome',
+          content: `You have registered successfully ${user.username}!`,
+        });
+        this.login({ email: user.email, password: user.password });
+      });
   }
 
   login(user: LoginUserDto) {

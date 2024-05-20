@@ -6,11 +6,12 @@ import { User } from '@nx-angular-nestjs-authentication/models';
 import { AuthService } from './core/auth/services/auth.service';
 import { FooterComponent } from './core/layout/footer/footer.component';
 import { HeaderComponent } from './core/layout/header/header.component';
+import { ToastComponent } from './shared/components/toast/toast.component';
 import { AppRoute } from './shared/enums';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, HeaderComponent, FooterComponent],
+  imports: [RouterModule, HeaderComponent, FooterComponent, ToastComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
 })

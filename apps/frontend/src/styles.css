@@ -1,5 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
+:root {
+  --clr-success-dark: #28a745;
+  --clr-success-light: #e6ffed;
+  --clr-info-dark: #2563eb;
+  --clr-info-light: #deebff;
+  --clr-error-dark: #dc3545;
+  --clr-error-light: #f8d7da;
+  --clr-warning-dark: #ffc107;
+  --clr-warning-light: #fff3cd;
+}
+
 *,
 ::after,
 ::before {
