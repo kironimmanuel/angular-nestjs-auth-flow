@@ -1,13 +1,7 @@
-<nav class="navbar bg-body-tertiary">
+<nav class="navbar">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img
-        src="https://www.google.com/s2/favicons?domain=google.com&sz=256"
-        alt=""
-        width="30"
-        height="30"
-        class="d-inline-block align-text-top" />
-      Lorem Ipsum
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="assets/images/logo.svg" alt="" height="30" class="d-inline-block align-text-top" />
     </a>
     @if(authService.currentUser()){
     <div class="d-flex align-items-center gap-2">
@@ -21,8 +15,12 @@
     </div>
     } @else{
     <div class="d-flex align-items-center gap-2">
-      <button mat-button color="primary" type="submit" [routerLink]="[loginRoute]">Login</button>
-      <button mat-flat-button color="primary" type="submit" [routerLink]="[registerRoute]">Register</button>
+      <button mat-button color="primary" type="submit" [routerLink]="[loginRoute]" class="btn-w-fixed-100">
+        Login
+      </button>
+      <button mat-flat-button color="primary" type="submit" [routerLink]="[registerRoute]" class="btn-w-fixed-100">
+        Register
+      </button>
     </div>
     }
   </div>

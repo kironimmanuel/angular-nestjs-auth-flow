@@ -22,7 +22,25 @@ export class AuthService {
     private readonly router: Router,
     private readonly jwtService: JwtService,
     private readonly toast: ToastService
-  ) {}
+  ) {
+    this.loadCurrentUser();
+  }
+
+  private loadCurrentUser(): void {
+    const token = this.jwtService.getAccessToken();
+    if (token) {
+      this.http.get<User>(`${environment.apiUrl}/user`).subscribe({
+        next: (user) => this.currentUser.set(user),
+        error: () => this.currentUser.set(null),
+      });
+    } else {
+      this.currentUser.set(null);
+    }
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.currentUser();
+  }
 
   register(user: RegisterUserDTO) {
     return this.http

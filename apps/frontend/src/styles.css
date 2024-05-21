@@ -40,6 +40,10 @@ nav {
   padding-top: 2rem;
   padding-bottom: 2rem;
   min-height: calc(100vh - 125px);
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 
 h1,
@@ -50,4 +54,14 @@ h5,
 h6,
 p {
   margin: 0 !important;
+}
+
+.btn-w-fixed-100 {
+  width: 100px;
+}
+.btn-w-fixed-125 {
+  width: 125px;
+}
+.btn-w-fixed-150 {
+  width: 150px;
 }

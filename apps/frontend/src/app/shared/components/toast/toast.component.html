@@ -3,7 +3,7 @@
   (mouseleave)="countDown()"
   class="toast-wrapper"
   [@openClose]="toastService.data && toastService.data.show ? 'open' : 'closed'"
-  [ngClass]="toastService.data?.type">
+  [ngClass]="toastService.data && toastService.data.type">
   <div class="inner-wrapper">
     <div class="d-flex gap-2" *ngIf="toastService.data">
       <ng-container *ngIf="toastService.data.type === successType">
