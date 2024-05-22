@@ -13,6 +13,7 @@ import { AuthService } from '../../auth/services/auth.service';
   standalone: true,
 })
 export class HeaderComponent {
+  landingRoute = AppRoute.LANDING;
   loginRoute = AppRoute.LOGIN;
   registerRoute = AppRoute.REGISTER;
 

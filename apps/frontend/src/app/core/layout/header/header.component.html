@@ -1,6 +1,6 @@
 <nav class="navbar">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="/">
+    <a class="navbar-brand d-flex align-items-center" [routerLink]="[landingRoute]">
       <img src="assets/images/logo.svg" alt="" height="30" class="d-inline-block align-text-top" />
     </a>
     @if(authService.currentUser()){
