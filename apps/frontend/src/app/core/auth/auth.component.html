@@ -1,22 +1,25 @@
 <main class="container page auth-page">
   <div class="form-container p-3 shadow-sm rounded-2 bg-body">
     <h1 class="text-center fs-2 pb-3">{{ title }}</h1>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
       <div class="d-flex flex-column gap-2">
-        @if (authType === 'register') {
-        <mat-form-field
-          appearance="outline"
-          [ngClass]="{
-            'mat-form-field-invalid': hasError('username', 'required') || hasError('username', 'maxlength')
-          }">
-          <mat-label>Username</mat-label>
-          <input matInput formControlName="username" required [errorStateMatcher]="matcher" />
-          <mat-error *ngIf="hasError('username', 'required')">Username is required</mat-error>
-          <mat-error *ngIf="hasError('username', 'maxlength')">
-            Username cannot be longer than 30 characters
-          </mat-error>
-        </mat-form-field>
-        }
+        <!-- Username field -->
+        <ng-container *ngIf="authType === 'register'">
+          <mat-form-field
+            appearance="outline"
+            [ngClass]="{
+              'mat-form-field-invalid': hasError('username', 'required') || hasError('username', 'maxlength')
+            }">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" required [errorStateMatcher]="matcher" />
+            <mat-error *ngIf="hasError('username', 'required')">Username is required</mat-error>
+            <mat-error *ngIf="hasError('username', 'maxlength')"
+              >Username cannot be longer than 30 characters</mat-error
+            >
+          </mat-form-field>
+        </ng-container>
+
+        <!-- Email field -->
         <mat-form-field
           appearance="outline"
           [ngClass]="{ 'mat-form-field-invalid': hasError('email', 'required') || hasError('email', 'email') }">
@@ -25,6 +28,8 @@
           <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
           <mat-error *ngIf="hasError('email', 'email')">Invalid email address</mat-error>
         </mat-form-field>
+
+        <!-- Password field -->
         <mat-form-field
           appearance="outline"
           [ngClass]="{

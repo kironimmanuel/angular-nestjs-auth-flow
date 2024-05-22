@@ -21,9 +21,8 @@ export class DatabaseSeederService {
 
   async seedInitialData() {
     const users = [
-      { username: 'user1', email: 'user1@example.com', password: 'password1', role: UserRole.ADMIN },
-      { username: 'user2', email: 'user2@example.com', password: 'password2' },
-      { username: 'user3', email: 'user3@example.com', password: 'password3' },
+      { username: 'admin', email: 'admin@gmail.com', password: 'password', role: UserRole.ADMIN },
+      { username: 'user', email: 'user@gmail.com', password: 'password' },
     ];
 
     for (const userData of users) {

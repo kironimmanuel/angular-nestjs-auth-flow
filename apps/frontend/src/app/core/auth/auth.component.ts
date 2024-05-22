@@ -12,8 +12,8 @@ import { AppRoute, AuthType } from '../../shared/enums';
 import { FormErrorStateMatcher, generateRandomEmail, getRandomUsername } from '../../shared/utils';
 import { AuthService } from './services/auth.service';
 
-interface RegisterFormControls {
-  username: FormControl<string | null>;
+interface AuthFormControls {
+  username?: FormControl<string | null>;
   email: FormControl<string | null>;
   password: FormControl<string | null>;
 }
@@ -47,37 +47,41 @@ export class AuthComponent implements OnInit {
 
   constructor(private readonly route: ActivatedRoute, private readonly authService: AuthService) {}
 
-  ngOnInit(): void {
-    const urlSegments = this.route.snapshot.url;
-
-    this.authType = urlSegments.length > 0 ? urlSegments[urlSegments.length - 1].path : '';
-    this.title = this.authType === 'login' ? 'Login' : 'Register';
-
-    if (!environment.production && this.authType === AuthType.REGISTER) {
-      this.generateMockData();
-    }
-  }
-
-  registerForm = new FormGroup({
+  authForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.maxLength(30)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
   });
 
-  onSubmit() {
-    this.isSubmitting = true;
-    if (this.registerForm.valid) {
-      if (this.authType === AuthType.REGISTER) {
-        this.authService.register(this.registerForm.value as RegisterUserDTO);
-      } else {
-        this.authService.login(this.registerForm.value as LoginUserDto);
-      }
+  ngOnInit(): void {
+    const urlSegments = this.route.snapshot.url;
+    this.authType = urlSegments.length > 0 ? urlSegments[urlSegments.length - 1].path : '';
+    this.title = this.authType === AuthType.LOGIN ? 'Login' : 'Register';
+
+    if (!environment.production && this.authType === AuthType.REGISTER) {
+      this.generateMockData();
+    }
+
+    if (this.authType === AuthType.LOGIN) {
+      (this.authForm as FormGroup).removeControl('username');
     }
   }
 
-  hasError(controlName: keyof RegisterFormControls, errorName: string) {
-    const control = this.registerForm.controls[controlName];
-    return control.hasError(errorName) && (control.touched || this.isSubmitting);
+  onSubmit() {
+    this.isSubmitting = true;
+    if (this.authForm.valid) {
+      if (this.authType === AuthType.REGISTER) {
+        this.authService.register(this.authForm.value as RegisterUserDTO);
+      } else {
+        this.authService.login(this.authForm.value as LoginUserDto);
+      }
+      this.resetForm(this.authForm);
+    }
+  }
+
+  hasError(controlName: keyof AuthFormControls, errorName: string) {
+    const control = this.authForm.get(controlName);
+    return control && control.hasError(errorName) && (control.touched || this.isSubmitting);
   }
 
   resetForm(form: FormGroup) {
@@ -92,8 +96,8 @@ export class AuthComponent implements OnInit {
 
   // Generate mock form data for development
   generateMockData() {
-    this.registerForm.patchValue({ email: generateRandomEmail() });
-    this.registerForm.patchValue({ username: getRandomUsername() });
-    this.registerForm.patchValue({ password: 'password' });
+    this.authForm.patchValue({ email: generateRandomEmail() });
+    this.authForm.patchValue({ username: getRandomUsername() });
+    this.authForm.patchValue({ password: 'password' });
   }
 }
