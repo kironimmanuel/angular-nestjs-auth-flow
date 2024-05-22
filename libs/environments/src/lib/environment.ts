@@ -5,7 +5,7 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api',
   apiAuthUrl: 'http://localhost:3000/api/auth',
-  accessTokenLifetime: '1d',
+  accessTokenLifetime: 1800,
   refreshTokenLifetime: '7d',
 };
 

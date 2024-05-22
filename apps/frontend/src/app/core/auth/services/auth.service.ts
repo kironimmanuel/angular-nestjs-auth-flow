@@ -26,12 +26,31 @@ export class AuthService {
     this.loadCurrentUser();
   }
 
+  getSessionExpirationTime(): number | null {
+    return this.jwtService.getTokenExpirationTime();
+  }
+
   private loadCurrentUser(): void {
     const token = this.jwtService.getAccessToken();
     if (token) {
       this.http.get<User>(`${environment.apiUrl}/user`).subscribe({
-        next: (user) => this.currentUser.set(user),
-        error: () => this.currentUser.set(null),
+        next: (user) => {
+          this.currentUser.set(user);
+          const expirationTime = this.jwtService.getTokenExpirationTime();
+          if (expirationTime) {
+            const currentTime = Date.now();
+            const remainingTime = expirationTime - currentTime;
+            if (remainingTime > 0) {
+              this.autoLogout(remainingTime);
+            } else {
+              this.logout();
+            }
+          }
+        },
+        error: () => {
+          this.currentUser.set(null);
+          this.logout();
+        },
       });
     } else {
       this.currentUser.set(null);
@@ -65,8 +84,11 @@ export class AuthService {
 
   login(user: LoginUserDto) {
     return this.http.post<UserResponseDTO>(this.loginUrl, user).subscribe((response) => {
+      const token = response.accessToken as string;
+      const remainingTimeInMs = this.jwtService.getTokenExpirationTimeFromToken(token);
       this.setAuth(response as User);
       this.router.navigate([AppRoute.DASHBOARD]);
+      this.autoLogout(remainingTimeInMs - Date.now());
     });
   }
 
@@ -74,6 +96,16 @@ export class AuthService {
     this.jwtService.destroyToken();
     this.currentUser.set(null);
     this.router.navigate([AppRoute.LANDING]);
+  }
+
+  autoLogout(timeInMs: number) {
+    setTimeout(() => {
+      this.logout();
+      this.toast.warning({
+        title: 'Session Expired',
+        content: 'Your session has expired. Please login again.',
+      });
+    }, timeInMs);
   }
 
   setAuth(user: User): void {

@@ -35,6 +35,7 @@ interface AuthFormControls {
   styleUrl: './auth.component.css',
 })
 export class AuthComponent implements OnInit {
+  public environment = environment;
   authType = '';
   title = '';
   hide = true;
@@ -94,10 +95,14 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  // Generate mock form data for development
-  generateMockData() {
+  private generateMockData() {
     this.authForm.patchValue({ email: generateRandomEmail() });
     this.authForm.patchValue({ username: getRandomUsername() });
+    this.authForm.patchValue({ password: 'password' });
+  }
+
+  adminLogin() {
+    this.authForm.patchValue({ email: 'admin@gmail.com' });
     this.authForm.patchValue({ password: 'password' });
   }
 }

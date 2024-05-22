@@ -1,27 +1,26 @@
 <nav class="navbar">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center" [routerLink]="[landingRoute]">
-      <img src="assets/images/logo.svg" alt="" height="30" class="d-inline-block align-text-top" />
+    <a class="navbar-brand d-flex align-items-center" [routerLink]="landingRoute">
+      <img src="assets/images/logo.svg" alt="Logo" height="30" class="d-inline-block align-text-top" />
     </a>
-    @if(authService.currentUser()){
-    <div class="d-flex align-items-center gap-2">
+    <ng-container *ngIf="authService.currentUser()">
       <p>
-        <strong>{{ authService.currentUser()?.username }}</strong>
+        Welcome, <strong>{{ authService.currentUser()?.username }}</strong>
       </p>
-      <div class="d-flex">
-        <mat-icon fontIcon="account_circle"></mat-icon>
+      <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-1 user-select-none" matTooltip="Session time left">
+          <mat-icon fontIcon="schedule"></mat-icon>
+          <app-session-timer></app-session-timer>
+        </div>
+        <div class="avatar">{{ authService.currentUser()?.username?.charAt(0) }}</div>
+        <button mat-flat-button color="primary" (click)="authService.logout()">Logout</button>
       </div>
-      <button mat-flat-button color="primary" type="submit" (click)="authService.logout()">Logout</button>
-    </div>
-    } @else{
-    <div class="d-flex align-items-center gap-2">
-      <button mat-button color="primary" type="submit" [routerLink]="[loginRoute]" class="btn-w-fixed-100">
-        Login
-      </button>
-      <button mat-flat-button color="primary" type="submit" [routerLink]="[registerRoute]" class="btn-w-fixed-100">
-        Register
-      </button>
-    </div>
-    }
+    </ng-container>
+    <ng-container *ngIf="!authService.currentUser()">
+      <div class="d-flex align-items-center gap-2">
+        <button mat-button color="primary" [routerLink]="loginRoute" class="btn-w-fixed-100">Login</button>
+        <button mat-flat-button color="primary" [routerLink]="registerRoute" class="btn-w-fixed-100">Register</button>
+      </div>
+    </ng-container>
   </div>
 </nav>

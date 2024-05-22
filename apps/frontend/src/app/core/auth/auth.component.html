@@ -56,10 +56,15 @@
           <mat-error *ngIf="hasError('password', 'minlength')">Password must be at least 8 characters</mat-error>
         </mat-form-field>
       </div>
-      <div class="py-3">
-        <button mat-flat-button color="primary" type="submit" class="w-100">
+      <div class="py-3 d-flex flex-column gap-2">
+        <button mat-flat-button color="primary" type="submit">
           {{ authType === 'register' ? 'Register' : 'Login' }}
         </button>
+        <ng-container *ngIf="authType === 'login'">
+          <button mat-flat-button color="accent" type="submit" (click)="adminLogin()" *ngIf="!environment.production">
+            Admin Login
+          </button>
+        </ng-container>
       </div>
       <div class="text-center">
         <small class="text-body-tertiary">

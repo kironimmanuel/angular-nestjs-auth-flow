@@ -1,6 +1,17 @@
 @import 'utils.css';
 
 :root {
+  --clr-white: #fff;
+  --clr-black: #000;
+
+  --clr-primary-100: #cce5ff;
+  --clr-primary-200: #99ccff;
+  --clr-primary-300: #66b2ff;
+
+  --clr-secondary-100: #f8f9fa;
+  --clr-secondary-200: #e9ecef;
+  --clr-secondary-300: #dee2e6;
+
   --clr-bg-dark: #343a40;
   --clr-bg-light: #fdfeff;
 

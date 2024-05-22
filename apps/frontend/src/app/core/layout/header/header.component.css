@@ -1,0 +1,12 @@
+.avatar {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  background: var(--clr-secondary-200);
+  color: var(--clr-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  user-select: none;
+}
