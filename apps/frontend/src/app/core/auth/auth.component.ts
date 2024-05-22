@@ -32,6 +32,7 @@ interface RegisterFormControls {
     RouterLink,
   ],
   templateUrl: './auth.component.html',
+  styleUrl: './auth.component.css',
 })
 export class AuthComponent implements OnInit {
   authType = '';
@@ -41,6 +42,8 @@ export class AuthComponent implements OnInit {
   matcher = new FormErrorStateMatcher();
   loginRoute = AppRoute.LOGIN;
   registerRoute = AppRoute.REGISTER;
+  privacyRoute = AppRoute.PRIVACY;
+  termsOfServiceRoute = AppRoute.TERMS_OF_SERVICE;
 
   constructor(private readonly route: ActivatedRoute, private readonly authService: AuthService) {}
 

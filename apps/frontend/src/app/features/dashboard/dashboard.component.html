@@ -2,11 +2,13 @@
   <h1 class="text-center pb-3">Welcome {{ authService.currentUser()?.username }}</h1>
   <mat-card>
     <mat-card-content>
-      <h2 c>Info</h2>
-      <hr />
-      <p><strong>Name:</strong> {{ authService.currentUser()?.username }}</p>
-      <p><strong>Email:</strong> {{ authService.currentUser()?.email }}</p>
-      <p><strong>Role:</strong> {{ authService.currentUser()?.role }}</p>
+      <h2 class="fs-4 p-3">Info</h2>
+      <mat-divider></mat-divider>
+      <mat-list role="list">
+        <mat-list-item> <strong>Name:</strong> {{ authService.currentUser()?.username }} </mat-list-item>
+        <mat-list-item> <strong>Email:</strong> {{ authService.currentUser()?.email }} </mat-list-item>
+        <mat-list-item> <strong>Role:</strong> {{ authService.currentUser()?.role }} </mat-list-item>
+      </mat-list>
     </mat-card-content>
   </mat-card>
 </main>

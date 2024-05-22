@@ -1,6 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'utils.css';
 
 :root {
+  --clr-bg-dark: #343a40;
+  --clr-bg-light: #fdfeff;
+
   --clr-success-dark: #28a745;
   --clr-success-light: #e6ffed;
   --clr-info-dark: #2563eb;
@@ -26,6 +29,7 @@ body {
 
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--clr-bg-light);
 }
 
 footer {
@@ -34,16 +38,6 @@ footer {
 
 nav {
   height: 60px;
-}
-
-.page {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  min-height: calc(100vh - 125px);
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: center; */
-  /* align-items: center; */
 }
 
 h1,
@@ -56,12 +50,13 @@ p {
   margin: 0 !important;
 }
 
-.btn-w-fixed-100 {
-  width: 100px;
+a {
+  text-decoration: none;
+  color: var(--clr-info-dark);
 }
-.btn-w-fixed-125 {
-  width: 125px;
-}
-.btn-w-fixed-150 {
-  width: 150px;
+
+.page {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  min-height: calc(100vh - 125px);
 }

@@ -1,0 +1,10 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+}
+
+.form-container {
+  max-width: 375px;
+  height: min-content !important;
+  height: auto;
+}

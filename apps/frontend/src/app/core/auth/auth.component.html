@@ -1,73 +1,75 @@
-<main class="container page">
-  <div class="row">
-    <div class="col-md-6 offset-md-3 col-xs-12 p-3 shadow-sm rounded-2">
-      <h1 class="text-center text-uppercase fs-2">{{ title }}</h1>
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="d-flex flex-column gap-2">
-          @if (authType === 'register') {
-          <mat-form-field
-            appearance="outline"
-            [ngClass]="{
-              'mat-form-field-invalid': hasError('username', 'required') || hasError('username', 'maxlength')
-            }">
-            <mat-label>Username</mat-label>
-            <input matInput formControlName="username" required [errorStateMatcher]="matcher" />
-            <mat-error *ngIf="hasError('username', 'required')">Username is required</mat-error>
-            <mat-error *ngIf="hasError('username', 'maxlength')">
-              Username cannot be longer than 30 characters
-            </mat-error>
-          </mat-form-field>
-          }
-          <mat-form-field
-            appearance="outline"
-            [ngClass]="{ 'mat-form-field-invalid': hasError('email', 'required') || hasError('email', 'email') }">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required [errorStateMatcher]="matcher" />
-            <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
-            <mat-error *ngIf="hasError('email', 'email')">Invalid email address</mat-error>
-          </mat-form-field>
-          <mat-form-field
-            appearance="outline"
-            [ngClass]="{
-              'mat-form-field-invalid': hasError('password', 'required') || hasError('password', 'minlength')
-            }">
-            <mat-label>Password</mat-label>
-            <input
-              matInput
-              [type]="hide ? 'password' : 'text'"
-              formControlName="password"
-              required
-              autoComplete="on"
-              [errorStateMatcher]="matcher" />
-            <button
-              mat-icon-button
-              matSuffix
-              (click)="hide = !hide"
-              [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide"
-              type="button">
-              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-            <mat-error *ngIf="hasError('password', 'required')">Password is required</mat-error>
-            <mat-error *ngIf="hasError('password', 'minlength')">Password must be at least 8 characters</mat-error>
-          </mat-form-field>
-        </div>
-        <div class="py-3">
-          <button mat-flat-button color="primary" type="submit" class="w-100">
-            {{ authType === 'register' ? 'Register' : 'Login' }}
+<main class="container page auth-page">
+  <div class="form-container p-3 shadow-sm rounded-2 bg-body">
+    <h1 class="text-center fs-2 pb-3">{{ title }}</h1>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="d-flex flex-column gap-2">
+        @if (authType === 'register') {
+        <mat-form-field
+          appearance="outline"
+          [ngClass]="{
+            'mat-form-field-invalid': hasError('username', 'required') || hasError('username', 'maxlength')
+          }">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" required [errorStateMatcher]="matcher" />
+          <mat-error *ngIf="hasError('username', 'required')">Username is required</mat-error>
+          <mat-error *ngIf="hasError('username', 'maxlength')">
+            Username cannot be longer than 30 characters
+          </mat-error>
+        </mat-form-field>
+        }
+        <mat-form-field
+          appearance="outline"
+          [ngClass]="{ 'mat-form-field-invalid': hasError('email', 'required') || hasError('email', 'email') }">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required [errorStateMatcher]="matcher" />
+          <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
+          <mat-error *ngIf="hasError('email', 'email')">Invalid email address</mat-error>
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          [ngClass]="{
+            'mat-form-field-invalid': hasError('password', 'required') || hasError('password', 'minlength')
+          }">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            required
+            autoComplete="on"
+            [errorStateMatcher]="matcher" />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+            type="button">
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-        </div>
-        <div class="text-center">
-          <p class="text-body-tertiary">By clicking continue, you agree to our Terms of Service and Privacy Policy</p>
-          <p>
-            @if (authType === 'register') {
-            <a [routerLink]="[loginRoute]">Already have an account?</a>
-            } @if (authType === 'login') {
-            <a [routerLink]="[registerRoute]">Create an account</a>
-            }
-          </p>
-        </div>
-      </form>
-    </div>
+          <mat-error *ngIf="hasError('password', 'required')">Password is required</mat-error>
+          <mat-error *ngIf="hasError('password', 'minlength')">Password must be at least 8 characters</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="py-3">
+        <button mat-flat-button color="primary" type="submit" class="w-100">
+          {{ authType === 'register' ? 'Register' : 'Login' }}
+        </button>
+      </div>
+      <div class="text-center">
+        <small class="text-body-tertiary">
+          By clicking continue, you agree to our
+          <a [routerLink]="[termsOfServiceRoute]">Terms of Service</a> and
+          <a [routerLink]="[privacyRoute]">Privacy Policy</a>
+        </small>
+        <p class="pt-3">
+          @if (authType === 'register') {
+          <a [routerLink]="[loginRoute]">Already have an account?</a>
+          } @if (authType === 'login') {
+          <a [routerLink]="[registerRoute]">Create an account</a>
+          }
+        </p>
+      </div>
+    </form>
   </div>
 </main>
