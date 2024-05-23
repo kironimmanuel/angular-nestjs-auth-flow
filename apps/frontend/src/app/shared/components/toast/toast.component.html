@@ -1,32 +1,34 @@
 <div
-  (mouseenter)="stopCountDown()"
-  (mouseleave)="countDown()"
+  *ngFor="let toast of toasts; let i = index"
+  (mouseenter)="stopCountDown(toast.id)"
+  (mouseleave)="countDown(toast.id)"
   class="toast-wrapper"
-  [@openClose]="toastService.data && toastService.data.show ? 'open' : 'closed'"
-  [ngClass]="toastService.data && toastService.data.type">
+  [@openClose]="toast.show ? 'open' : 'closed'"
+  [ngClass]="toast.type"
+  [style.bottom.px]="24 + i * 85">
   <div class="inner-wrapper">
-    <div class="d-flex gap-2" *ngIf="toastService.data">
-      <ng-container *ngIf="toastService.data.type === successType">
+    <div class="d-flex gap-2">
+      <ng-container *ngIf="toast.type === successType">
         <mat-icon fontIcon="check" class="toast-icon"></mat-icon>
       </ng-container>
-      <ng-container *ngIf="toastService.data.type === errorType">
+      <ng-container *ngIf="toast.type === errorType">
         <mat-icon fontIcon="error" class="toast-icon"></mat-icon>
       </ng-container>
-      <ng-container *ngIf="toastService.data.type === infoType">
+      <ng-container *ngIf="toast.type === infoType">
         <mat-icon fontIcon="info" class="toast-icon"></mat-icon>
       </ng-container>
-      <ng-container *ngIf="toastService.data.type === warningType">
+      <ng-container *ngIf="toast.type === warningType">
         <mat-icon fontIcon="warning" class="toast-icon"></mat-icon>
       </ng-container>
       <div class="toast-content">
         <h5 class="toast-title">
-          {{ toastService.data.title }}
+          {{ toast.title }}
         </h5>
         <p class="toast-text">
-          {{ toastService.data.content }}
+          {{ toast.content }}
         </p>
       </div>
-      <mat-icon fontIcon="close" class="toast-close" (click)="toastService.hide()"></mat-icon>
+      <mat-icon fontIcon="close" class="toast-close" (click)="hideToast(toast.id)"></mat-icon>
     </div>
   </div>
 </div>

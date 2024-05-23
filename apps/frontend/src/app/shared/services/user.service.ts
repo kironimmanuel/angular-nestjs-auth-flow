@@ -24,7 +24,7 @@ export class UserService {
   }
 
   updateUser(user: UpdateUserDTO) {
-    this.http.put<UpdateUserDTO>(`${environment.apiUrl}/users/${this.authService.currentUser()?.id}`, user).subscribe({
+    this.http.put<UpdateUserDTO>(`${environment.apiUrl}/users/d${this.authService.currentUser()?.id}`, user).subscribe({
       next: (user) => this.authService.currentUser.set(user as User),
       error: () =>
         this.toast.error({

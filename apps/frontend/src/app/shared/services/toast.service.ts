@@ -5,23 +5,17 @@ import { ToastType } from '../enums';
 interface Toast {
   title?: string;
   content: string;
-  show?: boolean;
   type?: ToastType;
-}
-
-interface ToastContent {
-  title?: string;
-  content: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToastService {
-  data: Toast;
-  open = new Subject<Toast>();
+  private toastSubject = new Subject<Toast>();
+  toasts$ = this.toastSubject.asObservable();
 
-  private initiate(data: Toast) {
+  private createToast(data: Toast) {
     if (!data.title) {
       switch (data.type) {
         case ToastType.SUCCESS:
@@ -38,28 +32,22 @@ export class ToastService {
           break;
       }
     }
-    this.data = { ...data, show: true };
-    this.open.next(this.data);
+    this.toastSubject.next({ ...data });
   }
 
-  hide() {
-    this.data = { ...this.data, show: false };
-    this.open.next(this.data);
+  success(data: Toast) {
+    this.createToast({ ...data, type: ToastType.SUCCESS });
   }
 
-  success(data: ToastContent) {
-    this.initiate({ ...data, type: ToastType.SUCCESS });
+  info(data: Toast) {
+    this.createToast({ ...data, type: ToastType.INFO });
   }
 
-  info(data: ToastContent) {
-    this.initiate({ ...data, type: ToastType.INFO });
+  warning(data: Toast) {
+    this.createToast({ ...data, type: ToastType.WARNING });
   }
 
-  warning(data: ToastContent) {
-    this.initiate({ ...data, type: ToastType.WARNING });
-  }
-
-  error(data: ToastContent) {
-    this.initiate({ ...data, type: ToastType.ERROR });
+  error(data: Toast) {
+    this.createToast({ ...data, type: ToastType.ERROR });
   }
 }
