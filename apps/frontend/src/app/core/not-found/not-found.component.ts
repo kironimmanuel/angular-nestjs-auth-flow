@@ -11,5 +11,5 @@ import { AppRoute } from '../../shared/enums';
   templateUrl: './not-found.component.html',
 })
 export class NotFoundComponent {
-  landingRoute = AppRoute.LANDING;
+  homeRoute = AppRoute.HOME;
 }

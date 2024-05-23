@@ -18,7 +18,7 @@ export class AuthGuardService {
     if (this.jwtService.getAccessToken()) {
       return true;
     } else {
-      this.router.navigate([AppRoute.LANDING]);
+      this.router.navigate([AppRoute.HOME]);
       this.toast.error({
         title: 'Unauthorized access',
         content: 'You need to login to access this page',

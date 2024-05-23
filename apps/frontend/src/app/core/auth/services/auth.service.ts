@@ -102,7 +102,7 @@ export class AuthService {
   logout() {
     this.jwtService.destroyToken();
     this.currentUser.set(null);
-    this.router.navigate([AppRoute.LANDING]);
+    this.router.navigate([AppRoute.HOME]);
   }
 
   autoLogout(timeInMs: number) {

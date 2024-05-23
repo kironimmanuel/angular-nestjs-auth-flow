@@ -7,13 +7,13 @@ import { AppRoute } from '../../shared/enums';
 import { AuthService } from '../auth/services/auth.service';
 
 @Component({
-  selector: 'app-landing',
+  selector: 'app-home',
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule],
-  templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css',
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
 })
-export class LandingComponent implements OnInit {
+export class HomeComponent implements OnInit {
   constructor(private readonly authService: AuthService, private readonly router: Router) {}
 
   ngOnInit(): void {
