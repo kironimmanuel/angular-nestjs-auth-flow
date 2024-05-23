@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { SessionTimerComponent } from '../../../features/session-timer/session-timer.component';
+import { SessionTimerComponent } from '../../../shared/components/session-timer/session-timer.component';
 import { AppRoute } from '../../../shared/enums';
 import { AuthService } from '../../auth/services/auth.service';
 
