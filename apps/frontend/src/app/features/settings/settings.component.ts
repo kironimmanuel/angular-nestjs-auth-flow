@@ -8,6 +8,5 @@ import { MatDividerModule } from '@angular/material/divider';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatDividerModule],
   templateUrl: './settings.component.html',
-  styleUrl: './settings.component.css',
 })
 export class SettingsComponent {}

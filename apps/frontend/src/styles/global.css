@@ -33,6 +33,11 @@
   box-sizing: border-box;
 }
 
+::ng-deep * {
+  margin: 0;
+  padding: 0;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -50,13 +55,14 @@
   background: #555;
 }
 
-html {
-  background: var(--clr-bg-light);
+html,
+body {
+  height: 100%;
 }
 
 body {
+  background: var(--clr-bg-light);
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-  height: 100%;
 }
 
 footer {

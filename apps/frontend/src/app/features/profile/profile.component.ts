@@ -31,7 +31,6 @@ interface ProfileFormControls {
     MatButtonModule,
   ],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css',
 })
 export class ProfileComponent {
   public environment = environment;
@@ -65,7 +64,6 @@ export class ProfileComponent {
     this.isSubmitting = true;
     if (this.profileForm.valid) {
       this.userService.updateUser(this.profileForm.value as UpdateUserDTO);
-      // this.resetForm(this.profileForm);
     }
   }
 
@@ -73,14 +71,4 @@ export class ProfileComponent {
     const control = this.profileForm.get(controlName);
     return control && control.hasError(errorName) && (control.touched || this.isSubmitting);
   }
-
-  // resetForm(form: FormGroup) {
-  //   form.reset();
-  //   Object.keys(form.controls).forEach((key) => {
-  //     const control = form.get(key);
-  //     if (control) {
-  //       control.setErrors(null);
-  //     }
-  //   });
-  // }
 }
