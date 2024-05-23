@@ -27,4 +27,8 @@ export const appRoutes: Route[] = [
     canActivate: [AuthGuard],
     loadComponent: () => import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
   },
+  {
+    path: '**',
+    loadComponent: () => import('./core/not-found/not-found.component').then((m) => m.NotFoundComponent),
+  },
 ];
