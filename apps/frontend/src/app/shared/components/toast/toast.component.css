@@ -45,12 +45,12 @@
 .error h5,
 .error .toast-close,
 .error .toast-icon {
-  color: var(--clr-error-dark);
+  color: var(--clr-danger-dark);
 }
 
 .error {
-  border: 1px solid var(--clr-error-dark);
-  background: var(--clr-error-light);
+  border: 1px solid var(--clr-danger-dark);
+  background: var(--clr-danger-light);
 }
 
 .warning h5,

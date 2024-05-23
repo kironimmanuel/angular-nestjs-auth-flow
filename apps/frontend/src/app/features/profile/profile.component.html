@@ -1,0 +1,41 @@
+<main class="page">
+  <section class="container">
+    <mat-card>
+      <mat-card-content class="d-flex flex-column gap-3">
+        <div>
+          <h1 class="fs-3">General Info</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        </div>
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+          <div class="row row-cols-2">
+            <mat-form-field appearance="outline" class="col-12">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" required [errorStateMatcher]="matcher" />
+              <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
+              <mat-error *ngIf="hasError('email', 'email')">Invalid email address</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="pb-2">
+            <h2 class="fs-5">Profile Section</h2>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="row row-cols-3 pt-3">
+            <mat-form-field appearance="outline" class="col-12">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" required [errorStateMatcher]="matcher" />
+              <mat-error *ngIf="hasError('username', 'required')">Username is required</mat-error>
+              <mat-error *ngIf="hasError('username', 'maxlength')"
+                >Username cannot be longer than 30 characters</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="d-flex justify-content-end pt-3">
+            <button mat-flat-button color="primary" type="submit" [disabled]="!hasUserInfoChanged()">
+              Update Profile
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</main>

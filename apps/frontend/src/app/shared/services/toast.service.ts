@@ -3,14 +3,14 @@ import { Subject } from 'rxjs';
 import { ToastType } from '../enums';
 
 interface Toast {
-  title: string;
+  title?: string;
   content: string;
   show?: boolean;
   type?: ToastType;
 }
 
 interface ToastContent {
-  title: string;
+  title?: string;
   content: string;
 }
 
@@ -22,6 +22,22 @@ export class ToastService {
   open = new Subject<Toast>();
 
   private initiate(data: Toast) {
+    if (!data.title) {
+      switch (data.type) {
+        case ToastType.SUCCESS:
+          data.title = 'Success';
+          break;
+        case ToastType.INFO:
+          data.title = 'Info';
+          break;
+        case ToastType.WARNING:
+          data.title = 'Warning';
+          break;
+        case ToastType.ERROR:
+          data.title = 'Error';
+          break;
+      }
+    }
     this.data = { ...data, show: true };
     this.open.next(this.data);
   }

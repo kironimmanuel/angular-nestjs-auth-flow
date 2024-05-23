@@ -10,4 +10,6 @@ import { ToastComponent } from './shared/components/toast/toast.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent {}
+export class AppComponent {
+  title = 'frontend';
+}

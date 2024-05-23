@@ -8,13 +8,19 @@
         <p>
           Welcome, <strong>{{ authService.currentUser()?.username }}</strong>
         </p>
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-3">
           <div class="d-flex align-items-center gap-1 user-select-none" matTooltip="Session time left">
             <mat-icon fontIcon="schedule"></mat-icon>
             <app-session-timer></app-session-timer>
           </div>
-          <div class="avatar">{{ authService.currentUser()?.username?.charAt(0) }}</div>
-          <button mat-flat-button color="primary" (click)="authService.logout()">Logout</button>
+          <div mat-button [matMenuTriggerFor]="beforeMenu" class="avatar">
+            {{ authService.currentUser()?.username?.charAt(0) }}
+          </div>
+          <mat-menu #beforeMenu="matMenu" xPosition="before" class="menu">
+            <button mat-menu-item [routerLink]="profileRoute">Profile</button>
+            <button mat-menu-item [routerLink]="settingsRoute">Settings</button>
+            <button mat-menu-item (click)="authService.logout()" class="logout-btn">Logout</button>
+          </mat-menu>
         </div>
       </ng-container>
       <ng-container *ngIf="!authService.currentUser()">

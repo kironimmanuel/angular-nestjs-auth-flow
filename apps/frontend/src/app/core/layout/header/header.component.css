@@ -1,7 +1,7 @@
 .avatar {
   border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   background: var(--clr-secondary-200);
   color: var(--clr-white);
   display: flex;
@@ -9,4 +9,9 @@
   align-items: center;
   font-size: 1.5rem;
   user-select: none;
+  text-transform: uppercase;
+}
+
+.logout-btn {
+  color: var(--clr-danger-dark);
 }

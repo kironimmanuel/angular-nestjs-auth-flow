@@ -19,8 +19,8 @@
   --clr-success-light: #e6ffed;
   --clr-info-dark: #2563eb;
   --clr-info-light: #deebff;
-  --clr-error-dark: #dc3545;
-  --clr-error-light: #f8d7da;
+  --clr-danger-dark: #dc3545;
+  --clr-danger-light: #f8d7da;
   --clr-warning-dark: #ffc107;
   --clr-warning-light: #fff3cd;
 }
@@ -33,14 +33,30 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 1.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+html {
+  background: var(--clr-bg-light);
 }
 
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-  background: var(--clr-bg-light);
+  height: 100%;
 }
 
 footer {

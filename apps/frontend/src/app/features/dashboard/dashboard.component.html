@@ -1,42 +1,50 @@
-<main class="container page">
-  <h1 class="pb-3">Welcome {{ authService.currentUser()?.username }}</h1>
-  <mat-card>
-    <mat-card-content>
-      <h2 class="fs-4 p-3">Info</h2>
-      <mat-divider></mat-divider>
-      <mat-list role="list">
-        <mat-list-item> <strong>Name:</strong> {{ authService.currentUser()?.username }} </mat-list-item>
-        <mat-list-item> <strong>Email:</strong> {{ authService.currentUser()?.email }} </mat-list-item>
-        <mat-list-item> <strong>Role:</strong> {{ authService.currentUser()?.role }} </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+<main class="page">
+  <section class="container">
+    <h2 class="pb-3">App Info</h2>
+    <mat-card>
+      <mat-card-content class="d-flex flex-column gap-3">
+        <h3 class="fs-4">Welcome, {{ authService.currentUser()?.username }}</h3>
+        <mat-divider></mat-divider>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum necessitatibus soluta quia facilis. Rem sunt ad
+          facilis eligendi, illum dolorum cumque at ratione debitis rerum nihil, consequuntur, asperiores possimus
+          recusandae suscipit. Quibusdam perferendis, porro facere possimus exercitationem vel eius totam consectetur
+          incidunt, quo eum non, ratione provident corporis voluptate et?
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus voluptates non temporibus obcaecati unde
+          cumque ipsam cum suscipit quibusdam, reiciendis ullam. Quibusdam eius doloremque ratione ipsa voluptatum
+          reprehenderit inventore iusto!
+        </p>
+      </mat-card-content>
+    </mat-card>
 
-  <div class="mt-3">
-    <h2 class="pb-3">Users</h2>
-    <table mat-table [dataSource]="userService.users() ?? []" class="mat-elevation-z1">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let user">{{ user.id }}</td>
-      </ng-container>
+    <div class="mt-3">
+      <h2 class="pb-3">All Users</h2>
+      <table mat-table [dataSource]="userService.users() ?? []" class="mat-elevation-z1">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef>Username</th>
-        <td mat-cell *matCellDef="let user">{{ user.username }}</td>
-      </ng-container>
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef>Username</th>
+          <td mat-cell *matCellDef="let user">{{ user.username }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef>Email</th>
-        <td mat-cell *matCellDef="let user">{{ user.email }}</td>
-      </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef>Role</th>
-        <td mat-cell *matCellDef="let user">{{ user.role }}</td>
-      </ng-container>
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef>Role</th>
+          <td mat-cell *matCellDef="let user">{{ user.role }}</td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </div>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </section>
 </main>

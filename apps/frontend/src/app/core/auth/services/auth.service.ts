@@ -33,7 +33,7 @@ export class AuthService {
   private loadCurrentUser(): void {
     const token = this.jwtService.getAccessToken();
     if (token) {
-      this.http.get<User>(`${environment.apiUrl}/user`).subscribe({
+      this.http.get<User>(`${environment.apiUrl}/users/current-user`).subscribe({
         next: (user) => {
           this.currentUser.set(user);
           const expirationTime = this.jwtService.getTokenExpirationTime();
@@ -56,6 +56,13 @@ export class AuthService {
       this.currentUser.set(null);
     }
   }
+
+  // updateUser(user: User) {
+  //   this.http.post<User>(`${environment.apiUrl}/users`, user).subscribe({
+  //     next: (users) => this.currentUser.set(users),
+  //     error: () => this.currentUser.set(null),
+  //   });
+  // }
 
   isAuthenticated(): boolean {
     return !!this.currentUser();
