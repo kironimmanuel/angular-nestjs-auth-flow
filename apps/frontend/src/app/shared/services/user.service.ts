@@ -25,7 +25,13 @@ export class UserService {
 
   updateUser(user: UpdateUserDTO) {
     this.http.put<UpdateUserDTO>(`${environment.apiUrl}/users/${this.authService.currentUser()?.id}`, user).subscribe({
-      next: (user) => this.authService.currentUser.set(user as User),
+      next: (user) => {
+        this.authService.currentUser.set(user as User);
+        this.toast.success({
+          title: 'Update successful!',
+          content: 'Profile information have been updated.',
+        });
+      },
       error: () =>
         this.toast.error({
           title: 'Something went wrong!',
