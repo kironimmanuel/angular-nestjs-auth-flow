@@ -3,6 +3,9 @@ import { UserRole } from '../enums';
 
 export class UserResponseDTO {
   @IsNotEmpty()
+  readonly id: string;
+
+  @IsNotEmpty()
   @MaxLength(30)
   readonly username: string;
 

@@ -5,9 +5,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
-import { LoginUserDto, RegisterUserDTO } from '@nx-angular-nestjs-authentication/models';
+import {
+  LoginUserDto,
+  LoginUserResponseDTO,
+  RegisterUserDTO,
+  RegisterUserResponseDTO,
+} from '@nx-angular-nestjs-authentication/models';
+import { Observable } from 'rxjs';
 import { AppRoute, AuthType } from '../../shared/enums';
 import { FormErrorStateMatcher } from '../../shared/lib';
 import { generateRandomEmail, getRandomUsername } from '../../shared/utils';
@@ -47,7 +53,11 @@ export class AuthComponent implements OnInit {
   privacyRoute = AppRoute.PRIVACY;
   termsOfServiceRoute = AppRoute.TERMS_OF_SERVICE;
 
-  constructor(private readonly route: ActivatedRoute, private readonly authService: AuthService) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   authForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.maxLength(30)]),
@@ -71,13 +81,26 @@ export class AuthComponent implements OnInit {
 
   onSubmit() {
     this.isSubmitting = true;
+    let observable = {} as Observable<RegisterUserResponseDTO | LoginUserResponseDTO>;
+
     if (this.authForm.valid) {
       if (this.authType === AuthType.REGISTER) {
-        this.authService.register(this.authForm.value as RegisterUserDTO);
+        observable = this.authService.register(this.authForm.value as RegisterUserDTO);
       } else {
-        this.authService.login(this.authForm.value as LoginUserDto);
+        observable = this.authService.login(this.authForm.value as LoginUserDto);
       }
-      this.resetForm(this.authForm);
+      observable?.subscribe({
+        next: () => {
+          void this.router.navigate(['/']);
+          this.resetForm(this.authForm);
+        },
+        error: (err) => {
+          throw err;
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        },
+      });
     }
   }
 

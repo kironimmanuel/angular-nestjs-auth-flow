@@ -27,7 +27,7 @@ export class UserService {
   updateUser(user: UpdateUserDTO) {
     this.http.put<UpdateUserDTO>(`${ApiEndpoint.USERS}/${this.authService.currentUser()?.id}`, user).subscribe({
       next: (user) => {
-        this.authService.currentUser.set(user as User);
+        this.authService.currentUser.set(user as unknown as User);
         this.toast.success(successMessage.PROFILE_UPDATE);
       },
       error: () => this.toast.error(errorMessage.GENERIC),

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './core/layout/footer/footer.component';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { ToastComponent } from './shared/notification/toast/toast.component';
+import { SessionTimerService } from './shared/services/session-timer.service';
 
 @Component({
   standalone: true,
@@ -10,4 +11,12 @@ import { ToastComponent } from './shared/notification/toast/toast.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent {}
+export class AppComponent implements OnDestroy {
+  constructor(private sessionTimerService: SessionTimerService) {
+    this.sessionTimerService.startSessionTimerIfLoggedIn();
+  }
+
+  ngOnDestroy(): void {
+    this.sessionTimerService.stopSessionTimer();
+  }
+}

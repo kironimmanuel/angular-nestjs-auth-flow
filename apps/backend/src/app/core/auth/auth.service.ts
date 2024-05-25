@@ -5,8 +5,9 @@ import { environment } from '@nx-angular-nestjs-authentication/environments';
 import {
   JwtPayloadDTO,
   LoginUserDto,
+  LoginUserResponseDTO,
   RegisterUserDTO,
-  UserResponseDTO,
+  RegisterUserResponseDTO,
 } from '@nx-angular-nestjs-authentication/models';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -35,7 +36,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: LoginUserDto) {
+  async login(user: LoginUserDto): Promise<LoginUserResponseDTO> {
     const payload: JwtPayloadDTO = { email: user.email, username: user.username };
 
     const accessToken = this.generateJwtToken(payload);
@@ -45,10 +46,10 @@ export class AuthService {
       ...user,
       accessToken,
       refreshToken,
-    };
+    } as unknown as LoginUserResponseDTO;
   }
 
-  async register(dto: RegisterUserDTO): Promise<UserResponseDTO> {
+  async register(dto: RegisterUserDTO): Promise<RegisterUserResponseDTO> {
     const { username, email } = dto;
 
     const existingUsername = await this.userRepository.findOneBy({ username });

@@ -1,10 +1,9 @@
 import { UserRole } from '../enums';
 
 export interface User {
-  id?: number;
+  id: string;
   username: string;
   email: string;
-  password?: string;
   role: UserRole;
   accessToken: string;
   refreshToken: string;

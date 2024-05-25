@@ -1,10 +1,16 @@
-// import { warningMessage } from './../../../shared/notification/messages/warning.message';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { LoginUserDto, RegisterUserDTO, User, UserResponseDTO } from '@nx-angular-nestjs-authentication/models';
-import { catchError } from 'rxjs';
+import {
+  LoginUserDto,
+  LoginUserResponseDTO,
+  RegisterUserDTO,
+  RegisterUserResponseDTO,
+  User,
+  UserResponseDTO,
+} from '@nx-angular-nestjs-authentication/models';
+import { Observable, catchError, switchMap, tap, throwError } from 'rxjs';
 import { ApiEndpoint, AppRoute } from '../../../shared/enums';
 import { errorMessage } from '../../../shared/notification/messages';
 import { successMessage } from '../../../shared/notification/messages/success.message';
@@ -25,42 +31,55 @@ export class AuthService {
     private readonly dialog: MatDialog
   ) {}
 
-  getCurrentUser(): void {
-    this.http.get<User>(ApiEndpoint.CURRENT_USER).subscribe({
-      next: (user) => {
-        this.currentUser.set(user);
-      },
-      error: () => {
-        this.currentUser.set(null);
-        this.logout();
-      },
-    });
+  getCurrentUser(): Observable<UserResponseDTO> {
+    return this.http.get<UserResponseDTO>(ApiEndpoint.CURRENT_USER).pipe(
+      tap({
+        next: (user) => this.currentUser.set(user as User),
+        error: () => this.purgeAuth(),
+      })
+    );
   }
+
+  // getCurrentUser(): void {
+  //   this.http.get<User>(ApiEndpoint.CURRENT_USER).subscribe({
+  //     next: (user) => {
+  //       this.currentUser.set(user);
+  //     },
+  //     error: () => {
+  //      this.purgeAuth()
+  //     },
+  //   });
+  // }
 
   isAuthenticated(): boolean {
     return !!this.currentUser();
   }
 
-  register(user: RegisterUserDTO) {
-    return this.http
-      .post(ApiEndpoint.REGISTER, user)
-      .pipe(
-        catchError((error) => {
-          this.toast.error(errorMessage.GENERIC);
-          throw error;
-        })
-      )
-      .subscribe(() => {
+  register(user: RegisterUserDTO): Observable<RegisterUserResponseDTO> {
+    return this.http.post<RegisterUserResponseDTO>(ApiEndpoint.REGISTER, user).pipe(
+      tap(() => {
         this.toast.success(successMessage.REGISTRATION);
-        this.login({ email: user.email, password: user.password });
-      });
+      }),
+      switchMap(() => this.login({ email: user.email, password: user.password })),
+      catchError((error) => {
+        this.toast.error(errorMessage.GENERIC);
+        return throwError(() => error);
+      })
+    );
   }
 
-  login(user: LoginUserDto) {
-    return this.http.post<UserResponseDTO>(ApiEndpoint.LOGIN, user).subscribe((response) => {
-      this.setAuth(response as User);
-      this.router.navigate([AppRoute.DASHBOARD]);
-    });
+  login(user: LoginUserDto): Observable<LoginUserResponseDTO> {
+    return this.http.post<LoginUserResponseDTO>(ApiEndpoint.LOGIN, user).pipe(
+      tap((response) => {
+        this.setAuth(response as User);
+      }),
+      catchError((error) => {
+        if (error.statusCode === 404) {
+          this.toast.error(errorMessage.LOGIN_CREDENTIALS);
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
   logout() {

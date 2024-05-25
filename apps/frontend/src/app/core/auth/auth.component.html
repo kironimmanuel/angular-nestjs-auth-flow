@@ -10,7 +10,7 @@
               'mat-form-field-invalid': hasError('username', 'required') || hasError('username', 'maxlength')
             }">
             <mat-label>Username</mat-label>
-            <input matInput formControlName="username" required [errorStateMatcher]="matcher" />
+            <input matInput formControlName="username" required [errorStateMatcher]="matcher" autocomplete />
             <mat-error *ngIf="hasError('username', 'required')">Username is required</mat-error>
             <mat-error *ngIf="hasError('username', 'maxlength')"
               >Username cannot be longer than 30 characters</mat-error
@@ -22,7 +22,7 @@
           appearance="outline"
           [ngClass]="{ 'mat-form-field-invalid': hasError('email', 'required') || hasError('email', 'email') }">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" required [errorStateMatcher]="matcher" />
+          <input matInput formControlName="email" required [errorStateMatcher]="matcher" autocomplete="on" />
           <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
           <mat-error *ngIf="hasError('email', 'email')">Invalid email address</mat-error>
         </mat-form-field>
@@ -38,7 +38,7 @@
             [type]="hide ? 'password' : 'text'"
             formControlName="password"
             required
-            autoComplete="on"
+            autocomplete="on"
             [errorStateMatcher]="matcher" />
           <button
             mat-icon-button
