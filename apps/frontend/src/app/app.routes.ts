@@ -33,11 +33,6 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./features/profile/profile.component').then((m) => m.ProfileComponent),
   },
   {
-    path: 'settings',
-    canActivate: [AuthGuard],
-    loadComponent: () => import('./features/settings/settings.component').then((m) => m.SettingsComponent),
-  },
-  {
     path: '**',
     loadComponent: () => import('./features/not-found/not-found.component').then((m) => m.NotFoundComponent),
   },

@@ -20,7 +20,6 @@ export class HeaderComponent {
   homeRoute = AppRoute.HOME;
   loginRoute = AppRoute.LOGIN;
   registerRoute = AppRoute.REGISTER;
-  settingsRoute = AppRoute.SETTINGS;
   profileRoute = AppRoute.PROFILE;
 
   constructor(readonly authService: AuthService) {}

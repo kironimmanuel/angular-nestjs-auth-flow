@@ -18,7 +18,6 @@
           </div>
           <mat-menu #beforeMenu="matMenu" xPosition="before" class="menu">
             <button mat-menu-item [routerLink]="profileRoute">Profile</button>
-            <button mat-menu-item [routerLink]="settingsRoute">Settings</button>
             <button mat-menu-item (click)="authService.logout()" class="logout-btn">Logout</button>
           </mat-menu>
         </div>
