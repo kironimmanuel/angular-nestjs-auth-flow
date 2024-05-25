@@ -55,9 +55,9 @@ export class SessionTimerComponent implements OnDestroy {
       return;
     }
 
-    if (remainingTimeInMs < this.sessionExpirationWarningThreshold && !this.dialogTriggered) {
-      this.triggerSessionExpiryDialog();
-    }
+    // if (remainingTimeInMs < this.sessionExpirationWarningThreshold && !this.dialogTriggered) {
+    //   this.triggerSessionExpiryDialog();
+    // }
 
     this.remainingTime = this.formatTime(remainingTimeInMs);
   }

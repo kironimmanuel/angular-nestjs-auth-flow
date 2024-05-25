@@ -35,7 +35,7 @@ export class JwtService {
     window.localStorage.removeItem(this.refreshTokenKey);
   }
 
-  refreshAccessToken(): Observable<void> {
+  refreshAccessToken(): Observable<{ accessToken: string }> {
     const refreshToken = this.getRefreshTokenFromLocalStorage();
     if (!refreshToken) {
       this.toast.error(errorMessage.UNAUTHORIZED);
@@ -45,6 +45,7 @@ export class JwtService {
     return this.http.post<{ accessToken: string }>(ApiEndpoint.REFRESH_TOKEN, { refreshToken }).pipe(
       map((response) => {
         this.setAccessTokenToLocalStorage(response.accessToken);
+        return { accessToken: response.accessToken };
       }),
       catchError((error) => {
         this.removeAllTokenFromLocalStorage();
