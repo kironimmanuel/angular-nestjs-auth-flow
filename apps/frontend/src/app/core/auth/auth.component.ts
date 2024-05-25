@@ -9,7 +9,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
 import { LoginUserDto, RegisterUserDTO } from '@nx-angular-nestjs-authentication/models';
 import { AppRoute, AuthType } from '../../shared/enums';
-import { FormErrorStateMatcher, generateRandomEmail, getRandomUsername } from '../../shared/utils';
+import { FormErrorStateMatcher } from '../../shared/lib';
+import { generateRandomEmail, getRandomUsername } from '../../shared/utils';
 import { AuthService } from './services/auth.service';
 
 interface AuthFormControls {

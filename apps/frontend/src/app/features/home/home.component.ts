@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/auth/services/auth.service';
 import { AppRoute } from '../../shared/enums';
-import { AuthService } from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-home',

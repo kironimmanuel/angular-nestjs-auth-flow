@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<mat-dialog-content>
+  <p>{{ data.message }}</p>
+</mat-dialog-content>
+<mat-dialog-actions class="justify-content-end">
+  <button
+    mat-button
+    color="primary"
+    class="btn-w-fixed-100"
+    mat-dialog-close
+    (click)="data.actions[0].callback ? handleAction(data.actions[0].callback) : null">
+    {{ data.actions[0].text }}
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    class="btn-w-fixed-100"
+    mat-dialog-close
+    cdkFocusInitial
+    (click)="data.actions[1].callback ? handleAction(data.actions[1].callback) : null">
+    {{ data.actions[1].text }}
+  </button>
+</mat-dialog-actions>

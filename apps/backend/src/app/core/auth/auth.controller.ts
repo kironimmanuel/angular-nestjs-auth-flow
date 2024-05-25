@@ -3,7 +3,7 @@ import { RegisterUserDTO } from '@nx-angular-nestjs-authentication/models';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard, RefreshJwtAuthGuard } from './guards';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -19,7 +19,7 @@ export class AuthController {
   }
 
   @UseGuards(RefreshJwtAuthGuard)
-  @Post('refresh')
+  @Post('refresh-token')
   async refresh(@Request() request) {
     return await this.authService.refresh(request.body);
   }

@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileComponent } from './profile.component';
 
 describe('ProfileComponent', () => {
@@ -7,7 +9,7 @@ describe('ProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProfileComponent],
+      imports: [ProfileComponent, HttpClientTestingModule, NoopAnimationsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileComponent);

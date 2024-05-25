@@ -9,8 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
 import { UpdateUserDTO } from '@nx-angular-nestjs-authentication/models';
 import { AuthService } from '../../core/auth/services/auth.service';
+import { FormErrorStateMatcher } from '../../shared/lib';
 import { UserService } from '../../shared/services/user.service';
-import { FormErrorStateMatcher } from '../../shared/utils';
 
 interface ProfileFormControls {
   username?: FormControl<string | null>;

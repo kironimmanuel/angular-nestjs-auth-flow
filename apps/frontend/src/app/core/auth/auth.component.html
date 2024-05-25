@@ -3,7 +3,6 @@
     <h1 class="text-center fs-2 pb-3">{{ title }}</h1>
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
       <div class="d-flex flex-column gap-2">
-        <!-- Username field -->
         <ng-container *ngIf="authType === 'register'">
           <mat-form-field
             appearance="outline"
@@ -19,7 +18,6 @@
           </mat-form-field>
         </ng-container>
 
-        <!-- Email field -->
         <mat-form-field
           appearance="outline"
           [ngClass]="{ 'mat-form-field-invalid': hasError('email', 'required') || hasError('email', 'email') }">
@@ -29,7 +27,6 @@
           <mat-error *ngIf="hasError('email', 'email')">Invalid email address</mat-error>
         </mat-form-field>
 
-        <!-- Password field -->
         <mat-form-field
           appearance="outline"
           [ngClass]="{

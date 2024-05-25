@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { AppRoute } from '../../../shared/enums';
-import { ToastService } from '../../../shared/services/toast.service';
+import { errorMessage } from '../../../shared/notification/messages';
+import { ToastService } from '../../../shared/notification/toast/services/toast.service';
 import { JwtService } from './jwt.service';
 
 @Injectable({
@@ -15,14 +16,11 @@ export class AuthGuardService {
   ) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.jwtService.getAccessToken()) {
+    if (this.jwtService.getAccessTokenFromLocalStorage()) {
       return true;
     } else {
       this.router.navigate([AppRoute.HOME]);
-      this.toast.error({
-        title: 'Unauthorized access',
-        content: 'You need to login to access this page',
-      });
+      this.toast.error(errorMessage.UNAUTHORIZED);
       return false;
     }
   }

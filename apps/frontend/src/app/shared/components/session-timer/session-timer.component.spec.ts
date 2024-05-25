@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SessionTimerComponent } from './session-timer.component';
 
@@ -7,7 +8,7 @@ describe('SessionTimerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SessionTimerComponent],
+      imports: [SessionTimerComponent, HttpClientTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SessionTimerComponent);

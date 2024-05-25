@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ToastType } from '../enums';
 
 interface Toast {
   title?: string;
   content: string;
   type?: ToastType;
+}
+
+export enum ToastType {
+  SUCCESS = 'success',
+  INFO = 'info',
+  WARNING = 'warning',
+  ERROR = 'error',
 }
 
 @Injectable({

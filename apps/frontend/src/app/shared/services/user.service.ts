@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { environment } from '@nx-angular-nestjs-authentication/environments';
 import { UpdateUserDTO, User } from '@nx-angular-nestjs-authentication/models';
 import { AuthService } from '../../core/auth/services/auth.service';
-import { ToastService } from './toast.service';
+import { ApiEndpoint } from '../enums';
+import { errorMessage, successMessage } from '../notification/messages';
+import { ToastService } from '../notification/toast/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,26 +18,19 @@ export class UserService {
   ) {}
 
   getAllUsers() {
-    this.http.get<User[]>(`${environment.apiUrl}/users`).subscribe({
+    this.http.get<User[]>(ApiEndpoint.USERS).subscribe({
       next: (users) => this.users.set(users),
       error: () => this.users.set(null),
     });
   }
 
   updateUser(user: UpdateUserDTO) {
-    this.http.put<UpdateUserDTO>(`${environment.apiUrl}/users/${this.authService.currentUser()?.id}`, user).subscribe({
+    this.http.put<UpdateUserDTO>(`${ApiEndpoint.USERS}/${this.authService.currentUser()?.id}`, user).subscribe({
       next: (user) => {
         this.authService.currentUser.set(user as User);
-        this.toast.success({
-          title: 'Update successful!',
-          content: 'Profile information have been updated.',
-        });
+        this.toast.success(successMessage.PROFILE_UPDATE);
       },
-      error: () =>
-        this.toast.error({
-          title: 'Something went wrong!',
-          content: 'Unable to update user information. Please try again.',
-        }),
+      error: () => this.toast.error(errorMessage.GENERIC),
     });
   }
 }

@@ -1,3 +1,14 @@
+// Suppress console logs during tests
+const originalLog = console.log;
+
+beforeAll(() => {
+  console.log = jest.fn();
+});
+
+afterAll(() => {
+  console.log = originalLog;
+});
+
 // @ts-expect-error https://thymikee.github.io/jest-preset-angular/docs/getting-started/test-environment
 globalThis.ngJest = {
   testEnvironmentOptions: {

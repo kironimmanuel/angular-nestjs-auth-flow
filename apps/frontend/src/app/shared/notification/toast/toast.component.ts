@@ -2,8 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { ToastType } from '../../enums';
-import { ToastService } from '../../services/toast.service';
+import { ToastService, ToastType } from './services/toast.service';
 
 interface DisplayedToast {
   title?: string;

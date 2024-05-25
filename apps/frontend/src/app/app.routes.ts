@@ -4,7 +4,7 @@ import { AuthGuard } from './core/auth/services/auth-guard.service';
 export const appRoutes: Route[] = [
   {
     path: '',
-    loadComponent: () => import('./core/home/home.component').then((m) => m.HomeComponent),
+    loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
   },
   {
     path: 'login',
@@ -16,11 +16,11 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'privacy',
-    loadComponent: () => import('./core/privacy/privacy.component').then((m) => m.PrivacyComponent),
+    loadComponent: () => import('./features/privacy/privacy.component').then((m) => m.PrivacyComponent),
   },
   {
     path: 'terms-of-service',
-    loadComponent: () => import('./core/terms/terms.component').then((m) => m.TermsComponent),
+    loadComponent: () => import('./features/terms/terms.component').then((m) => m.TermsComponent),
   },
   {
     path: 'dashboard',
@@ -39,6 +39,6 @@ export const appRoutes: Route[] = [
   },
   {
     path: '**',
-    loadComponent: () => import('./core/not-found/not-found.component').then((m) => m.NotFoundComponent),
+    loadComponent: () => import('./features/not-found/not-found.component').then((m) => m.NotFoundComponent),
   },
 ];

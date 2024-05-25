@@ -1,9 +1,8 @@
 <main class="page">
-  <section class="container">
-    <h2 class="pb-3">App Info</h2>
+  <section class="container d-flex flex-column gap-3">
     <mat-card>
       <mat-card-content class="d-flex flex-column gap-3">
-        <h3 class="fs-4">Welcome, {{ authService.currentUser()?.username }}</h3>
+        <h3 class="fs-3">Welcome, {{ authService.currentUser()?.username }}</h3>
         <mat-divider></mat-divider>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum necessitatibus soluta quia facilis. Rem sunt ad
@@ -19,8 +18,7 @@
       </mat-card-content>
     </mat-card>
 
-    <div class="mt-3">
-      <h2 class="pb-3">All Users</h2>
+    <div class="mt-">
       <table mat-table [dataSource]="userService.users() ?? []" class="mat-elevation-z1">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>ID</th>
