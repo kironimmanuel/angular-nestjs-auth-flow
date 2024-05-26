@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { Response } from 'express';
 import * as http from 'http';
-import { ErrorResponse } from '../../shared/models';
+import { ErrorResponse } from '../shared/models';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -19,7 +19,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = exception.getStatus();
       const responseMessage = exception.getResponse();
 
-      // If the response message is an object with a 'message' property, we flatten it since class-validator may return an object with a nested 'message'.
       if (typeof responseMessage === 'object' && responseMessage['message']) {
         message = responseMessage['message'];
       } else {

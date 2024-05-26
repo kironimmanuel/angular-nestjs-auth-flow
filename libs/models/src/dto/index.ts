@@ -1,7 +1,8 @@
+export { CreateUserDTO } from './CreateUser.dto';
+export { CreateUserResponseDTO } from './CreateUserResponse.dto';
 export { JwtPayloadDTO } from './JwtPayload.dto';
-export { LoginUserDto } from './LoginUser.dto';
+export { LoginUserDTO } from './LoginUser.dto';
 export { LoginUserResponseDTO } from './LoginUserResponse.dto';
-export { RegisterUserDTO } from './RegisterUser.dto';
-export { RegisterUserResponseDTO } from './RegisterUserResponse.dto';
+export { RefreshTokenDTO } from './RefreshToken.dto';
 export { UpdateUserDTO } from './UpdateUser.dto';
 export { UserResponseDTO } from './UserResponse.dto';

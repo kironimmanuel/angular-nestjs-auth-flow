@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
 import {
   JwtPayloadDTO,
-  LoginUserDto,
+  LoginUserDTO,
   LoginUserResponseDTO,
   UserResponseDTO,
 } from '@nx-angular-nestjs-authentication/models';
@@ -32,20 +32,16 @@ export class AuthService {
     return null;
   }
 
-  async verify(user: LoginUserDto): Promise<LoginUserResponseDTO> {
+  async verify(user: LoginUserDTO): Promise<LoginUserResponseDTO> {
     const payload: JwtPayloadDTO = { sub: user.id, username: user.username, email: user.email, role: user.role };
 
     const accessToken = this.generateJwtToken(payload);
     const refreshToken = this.generateRefreshJwtToken(payload);
 
-    return {
-      ...user,
-      accessToken,
-      refreshToken,
-    } as LoginUserResponseDTO;
+    return Object.assign(user, { accessToken, refreshToken }) as LoginUserResponseDTO;
   }
 
-  async refresh(user: LoginUserDto) {
+  async refresh(user: LoginUserDTO): Promise<{ accessToken: string }> {
     const payload: JwtPayloadDTO = { sub: user.id, username: user.username, email: user.email, role: user.role };
 
     const accessToken = this.generateJwtToken(payload);

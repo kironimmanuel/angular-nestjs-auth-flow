@@ -8,10 +8,10 @@ import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
 import {
-  LoginUserDto,
+  CreateUserDTO,
+  CreateUserResponseDTO,
+  LoginUserDTO,
   LoginUserResponseDTO,
-  RegisterUserDTO,
-  RegisterUserResponseDTO,
 } from '@nx-angular-nestjs-authentication/models';
 import { Observable } from 'rxjs';
 import { AppRoute, AuthType } from '../../shared/enums';
@@ -81,13 +81,13 @@ export class AuthComponent implements OnInit {
 
   onSubmit() {
     this.isSubmitting = true;
-    let observable = {} as Observable<RegisterUserResponseDTO | LoginUserResponseDTO>;
+    let observable = {} as Observable<CreateUserResponseDTO | LoginUserResponseDTO>;
 
     if (this.authForm.valid) {
       if (this.authType === AuthType.REGISTER) {
-        observable = this.authService.register(this.authForm.value as RegisterUserDTO);
+        observable = this.authService.register(this.authForm.value as CreateUserDTO);
       } else {
-        observable = this.authService.login(this.authForm.value as LoginUserDto);
+        observable = this.authService.login(this.authForm.value as LoginUserDTO);
       }
       observable?.subscribe({
         next: () => {

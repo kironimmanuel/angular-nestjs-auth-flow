@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
-  RegisterUserDTO,
-  RegisterUserResponseDTO,
+  CreateUserDTO,
+  CreateUserResponseDTO,
   UpdateUserDTO,
   UserResponseDTO,
 } from '@nx-angular-nestjs-authentication/models';
@@ -22,7 +22,7 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async findById(id: string): Promise<UserResponseDTO> {
+  async findById(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findOneBy({ id });
     if (!user) {
       throw new UserNotFoundException('user not found with id: ' + id);
@@ -30,7 +30,7 @@ export class UserService {
     return user;
   }
 
-  async findByEmail(email: string): Promise<UserResponseDTO> {
+  async findByEmail(email: string): Promise<UserEntity> {
     const user = await this.userRepository.findOneBy({ email });
     if (!user) {
       throw new UserNotFoundException('user not found with email: ' + email);
@@ -38,7 +38,7 @@ export class UserService {
     return user;
   }
 
-  async create(dto: RegisterUserDTO): Promise<RegisterUserResponseDTO> {
+  async create(dto: CreateUserDTO): Promise<CreateUserResponseDTO> {
     const { username, email } = dto;
 
     const existingUsername = await this.userRepository.findOneBy({ username });

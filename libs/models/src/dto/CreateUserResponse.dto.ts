@@ -1,7 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
 import { UserRole } from '../enums';
 
-export class RegisterUserResponseDTO {
+export class CreateUserResponseDTO {
   @IsNotEmpty()
   readonly id: string;
 

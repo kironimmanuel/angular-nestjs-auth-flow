@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
-  LoginUserDto,
+  CreateUserDTO,
+  CreateUserResponseDTO,
+  LoginUserDTO,
   LoginUserResponseDTO,
-  RegisterUserDTO,
-  RegisterUserResponseDTO,
   UpdateUserDTO,
   User,
   UserResponseDTO,
@@ -54,8 +54,8 @@ export class AuthService {
     return !!this.currentUserValue;
   }
 
-  register(user: RegisterUserDTO): Observable<RegisterUserResponseDTO> {
-    return this.http.post<RegisterUserResponseDTO>(ApiEndpoint.REGISTER, user).pipe(
+  register(user: CreateUserDTO): Observable<CreateUserResponseDTO> {
+    return this.http.post<CreateUserResponseDTO>(ApiEndpoint.REGISTER, user).pipe(
       tap(() => {
         this.toast.success(successMessage.REGISTRATION);
       }),
@@ -67,7 +67,7 @@ export class AuthService {
     );
   }
 
-  login(user: LoginUserDto): Observable<LoginUserResponseDTO> {
+  login(user: LoginUserDTO): Observable<LoginUserResponseDTO> {
     return this.http.post<LoginUserResponseDTO>(ApiEndpoint.LOGIN, user).pipe(
       tap((response) => {
         this.setAuth(response as User);
