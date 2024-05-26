@@ -12,6 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
+import { JwtPayloadFactory } from './utils/jwt-payload.factory';
 
 @Injectable()
 export class AuthService {
@@ -33,7 +34,7 @@ export class AuthService {
   }
 
   async verify(user: LoginUserDTO): Promise<LoginUserResponseDTO> {
-    const payload: JwtPayloadDTO = { sub: user.id, username: user.username, email: user.email, role: user.role };
+    const payload: JwtPayloadDTO = JwtPayloadFactory.create(user);
 
     const accessToken = this.generateJwtToken(payload);
     const refreshToken = this.generateRefreshJwtToken(payload);
@@ -42,7 +43,7 @@ export class AuthService {
   }
 
   async refresh(user: LoginUserDTO): Promise<{ accessToken: string }> {
-    const payload: JwtPayloadDTO = { sub: user.id, username: user.username, email: user.email, role: user.role };
+    const payload: JwtPayloadDTO = JwtPayloadFactory.create(user);
 
     const accessToken = this.generateJwtToken(payload);
 
