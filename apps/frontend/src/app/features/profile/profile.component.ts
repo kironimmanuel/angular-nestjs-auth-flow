@@ -8,9 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
 import { UpdateUserDTO } from '@nx-angular-nestjs-authentication/models';
+import { catchError, finalize, of } from 'rxjs';
 import { AuthService } from '../../core/auth/services/auth.service';
 import { FormErrorStateMatcher } from '../../shared/lib';
-import { UserService } from '../../shared/services/user.service';
 
 interface ProfileFormControls {
   username?: FormControl<string | null>;
@@ -40,11 +40,11 @@ export class ProfileComponent {
 
   profileForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
   });
 
-  constructor(readonly authService: AuthService, readonly userService: UserService) {
-    const userInfo = this.authService.currentUser();
+  constructor(private authService: AuthService) {
+    const userInfo = this.authService.currentUserValue;
     if (userInfo) {
       this.profileForm.patchValue({
         username: userInfo.username,
@@ -53,18 +53,32 @@ export class ProfileComponent {
     }
   }
 
-  hasUserInfoChanged() {
-    const { username, email } = this.authService.currentUser() || {};
-    const formValues = this.profileForm.value;
-
-    return !!username && (formValues.username !== username || formValues.email !== email);
-  }
-
   onSubmit() {
     this.isSubmitting = true;
     if (this.profileForm.valid) {
-      this.userService.updateUser(this.profileForm.value as UpdateUserDTO);
+      const updateUserDto: UpdateUserDTO = {
+        username: this.profileForm.value.username!,
+        email: this.profileForm.value.email!,
+      };
+
+      this.authService
+        .update(updateUserDto)
+        .pipe(
+          catchError(() => of(null)),
+          finalize(() => (this.isSubmitting = false))
+        )
+        .subscribe();
     }
+  }
+
+  hasUserInfoChanged(): boolean {
+    const currentUser = this.authService.currentUserValue;
+    if (!currentUser) {
+      return false;
+    }
+
+    const formValues = this.profileForm.value;
+    return formValues.username !== currentUser.username || formValues.email !== currentUser.email;
   }
 
   hasError(controlName: keyof ProfileFormControls, errorName: string) {

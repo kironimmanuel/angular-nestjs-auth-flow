@@ -4,9 +4,9 @@
       <a class="navbar-brand d-flex align-items-center" [routerLink]="homeRoute">
         <img src="assets/images/logo.svg" alt="Logo" height="30" class="d-inline-block align-text-top" />
       </a>
-      <ng-container *ngIf="authService.currentUser()">
+      <ng-container *ngIf="currentUser">
         <p>
-          Welcome, <strong>{{ authService.currentUser()?.username }}</strong>
+          Welcome, <strong>{{ currentUser.username }}</strong>
         </p>
         <div class="d-flex align-items-center gap-3">
           <div class="d-flex align-items-center gap-1 user-select-none" matTooltip="Session time left">
@@ -14,15 +14,16 @@
             <app-session-timer></app-session-timer>
           </div>
           <div mat-button [matMenuTriggerFor]="beforeMenu" class="avatar">
-            {{ authService.currentUser()?.username?.charAt(0) }}
+            {{ currentUser.username.charAt(0) }}
           </div>
           <mat-menu #beforeMenu="matMenu" xPosition="before" class="menu">
             <button mat-menu-item [routerLink]="profileRoute">Profile</button>
+            <button mat-menu-item [routerLink]="newsRoute">News</button>
             <button mat-menu-item (click)="authService.logout()" class="logout-btn">Logout</button>
           </mat-menu>
         </div>
       </ng-container>
-      <ng-container *ngIf="!authService.currentUser()">
+      <ng-container *ngIf="!currentUser">
         <div class="d-flex align-items-center gap-2">
           <button mat-button color="primary" [routerLink]="loginRoute" class="btn-w-fixed-100">Login</button>
           <button mat-flat-button color="primary" [routerLink]="registerRoute" class="btn-w-fixed-100">Register</button>

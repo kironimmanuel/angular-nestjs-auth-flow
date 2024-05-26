@@ -28,6 +28,11 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
   },
   {
+    path: 'news',
+    canActivate: [AuthGuard],
+    loadComponent: () => import('./features/news/news.component').then((m) => m.NewsComponent),
+  },
+  {
     path: 'profile',
     canActivate: [AuthGuard],
     loadComponent: () => import('./features/profile/profile.component').then((m) => m.ProfileComponent),

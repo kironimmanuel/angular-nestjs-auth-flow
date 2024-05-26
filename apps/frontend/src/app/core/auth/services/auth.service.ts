@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
@@ -7,10 +7,12 @@ import {
   LoginUserResponseDTO,
   RegisterUserDTO,
   RegisterUserResponseDTO,
+  UpdateUserDTO,
   User,
   UserResponseDTO,
 } from '@nx-angular-nestjs-authentication/models';
-import { Observable, catchError, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { ApiEndpoint, AppRoute } from '../../../shared/enums';
 import { errorMessage } from '../../../shared/notification/messages';
 import { successMessage } from '../../../shared/notification/messages/success.message';
@@ -21,7 +23,8 @@ import { JwtService } from './jwt.service';
   providedIn: 'root',
 })
 export class AuthService {
-  public currentUser = signal<User | undefined | null>(undefined);
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
 
   constructor(
     private readonly http: HttpClient,
@@ -29,30 +32,26 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly toast: ToastService,
     private readonly dialog: MatDialog
-  ) {}
+  ) {
+    this.currentUserSubject = new BehaviorSubject<User | null>(null);
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  get currentUserValue(): User | null {
+    return this.currentUserSubject.value;
+  }
 
   getCurrentUser(): Observable<UserResponseDTO> {
     return this.http.get<UserResponseDTO>(ApiEndpoint.CURRENT_USER).pipe(
       tap({
-        next: (user) => this.currentUser.set(user as User),
+        next: (user) => this.currentUserSubject.next(user as User),
         error: () => this.purgeAuth(),
       })
     );
   }
 
-  // getCurrentUser(): void {
-  //   this.http.get<User>(ApiEndpoint.CURRENT_USER).subscribe({
-  //     next: (user) => {
-  //       this.currentUser.set(user);
-  //     },
-  //     error: () => {
-  //      this.purgeAuth()
-  //     },
-  //   });
-  // }
-
   isAuthenticated(): boolean {
-    return !!this.currentUser();
+    return !!this.currentUserValue;
   }
 
   register(user: RegisterUserDTO): Observable<RegisterUserResponseDTO> {
@@ -82,20 +81,33 @@ export class AuthService {
     );
   }
 
+  update(user: UpdateUserDTO): Observable<User> {
+    return this.http.put<User>(`${ApiEndpoint.USERS}/${this.currentUserValue?.id}`, user).pipe(
+      tap((updatedUser) => {
+        this.currentUserSubject.next(updatedUser);
+        this.toast.success(successMessage.PROFILE_UPDATE);
+      }),
+      catchError(() => {
+        this.toast.error(errorMessage.GENERIC);
+        return throwError(errorMessage.GENERIC);
+      })
+    );
+  }
+
   logout() {
     this.purgeAuth();
     this.dialog.closeAll();
     this.router.navigate([AppRoute.HOME]);
   }
 
-  setAuth(user: User): void {
+  private setAuth(user: User): void {
     this.jwtService.setAccessTokenToLocalStorage(user.accessToken);
     this.jwtService.setRefreshTokenToLocalStorage(user.refreshToken);
-    this.currentUser.set(user);
+    this.currentUserSubject.next(user);
   }
 
-  purgeAuth(): void {
+  private purgeAuth(): void {
     this.jwtService.removeAllTokenFromLocalStorage();
-    this.currentUser.set(null);
+    this.currentUserSubject.next(null);
   }
 }
