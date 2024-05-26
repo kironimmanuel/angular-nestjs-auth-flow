@@ -6,38 +6,34 @@ import {
   JwtPayloadDTO,
   LoginUserDto,
   LoginUserResponseDTO,
-  RegisterUserDTO,
-  RegisterUserResponseDTO,
+  UserResponseDTO,
 } from '@nx-angular-nestjs-authentication/models';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
-import { UniqueUserValueException } from './exceptions';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly _: Repository<UserEntity>,
     private readonly userService: UserService,
     private jwtService: JwtService
   ) {}
 
-  async validateUser(email: string, password: string) {
+  async validateUser(email: string, password: string): Promise<UserResponseDTO> {
     const user = await this.userService.findByEmail(email);
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
+      return user;
     }
 
     return null;
   }
 
-  async login(user: LoginUserDto): Promise<LoginUserResponseDTO> {
-    const payload: JwtPayloadDTO = { email: user.email, username: user.username };
+  async verify(user: LoginUserDto): Promise<LoginUserResponseDTO> {
+    const payload: JwtPayloadDTO = { sub: user.id, username: user.username, email: user.email, role: user.role };
 
     const accessToken = this.generateJwtToken(payload);
     const refreshToken = this.generateRefreshJwtToken(payload);
@@ -46,30 +42,11 @@ export class AuthService {
       ...user,
       accessToken,
       refreshToken,
-    } as unknown as LoginUserResponseDTO;
-  }
-
-  async register(dto: RegisterUserDTO): Promise<RegisterUserResponseDTO> {
-    const { username, email } = dto;
-
-    const existingUsername = await this.userRepository.findOneBy({ username });
-    const existingEmail = await this.userRepository.findOneBy({ email });
-
-    if (existingUsername && existingEmail) {
-      throw new UniqueUserValueException('username and email must be unique');
-    } else if (existingUsername) {
-      throw new UniqueUserValueException('username must be unique');
-    } else if (existingEmail) {
-      throw new UniqueUserValueException('email must be unique');
-    }
-
-    const user = this.userRepository.create(dto);
-    await this.userRepository.save(user);
-    return this.userService.toUserResponseDTO(user);
+    } as LoginUserResponseDTO;
   }
 
   async refresh(user: LoginUserDto) {
-    const payload: JwtPayloadDTO = { email: user.email, username: user.username };
+    const payload: JwtPayloadDTO = { sub: user.id, username: user.username, email: user.email, role: user.role };
 
     const accessToken = this.generateJwtToken(payload);
 

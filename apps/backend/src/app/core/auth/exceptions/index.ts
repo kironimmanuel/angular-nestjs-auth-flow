@@ -1,1 +1,1 @@
-export { UniqueUserValueException } from './unique-user-value.exception';
+export { UniqueUserValueException } from '../../user/exceptions/unique-user-value.exception';

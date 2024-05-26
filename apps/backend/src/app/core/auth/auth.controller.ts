@@ -1,21 +1,16 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { RegisterUserDTO } from '@nx-angular-nestjs-authentication/models';
+import { ClassSerializerInterceptor, Controller, Post, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard, RefreshJwtAuthGuard } from './guards';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('register')
-  async register(@Body() registerUserDto: RegisterUserDTO) {
-    return await this.authService.register(registerUserDto);
-  }
-
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() request) {
-    return await this.authService.login(request.user);
+    return await this.authService.verify(request.user);
   }
 
   @UseGuards(RefreshJwtAuthGuard)

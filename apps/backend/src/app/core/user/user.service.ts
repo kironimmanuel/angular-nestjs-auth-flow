@@ -1,21 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UpdateUserDTO, UserResponseDTO } from '@nx-angular-nestjs-authentication/models';
+import {
+  RegisterUserDTO,
+  RegisterUserResponseDTO,
+  UpdateUserDTO,
+  UserResponseDTO,
+} from '@nx-angular-nestjs-authentication/models';
 import * as bcrypt from 'bcrypt';
 import { DeleteResult, Repository } from 'typeorm';
-import { UserNotFoundException } from './exceptions';
+import { UniqueUserValueException, UserNotFoundException } from './exceptions';
 import { UserEntity } from './user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-    private readonly jwtService: JwtService
+    private readonly userRepository: Repository<UserEntity>
   ) {}
 
-  findAll(): Promise<UserResponseDTO[]> {
+  async findAll(): Promise<UserResponseDTO[]> {
     return this.userRepository.find();
   }
 
@@ -27,25 +30,30 @@ export class UserService {
     return user;
   }
 
-  async findByToken(token: string): Promise<UserResponseDTO> {
-    try {
-      const decodedToken = await this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
-      const userEmail = decodedToken.email;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = await this.findByEmail(userEmail);
-      return result;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  }
-
   async findByEmail(email: string): Promise<UserResponseDTO> {
     const user = await this.userRepository.findOneBy({ email });
     if (!user) {
       throw new UserNotFoundException('user not found with email: ' + email);
     }
     return user;
+  }
+
+  async create(dto: RegisterUserDTO): Promise<RegisterUserResponseDTO> {
+    const { username, email } = dto;
+
+    const existingUsername = await this.userRepository.findOneBy({ username });
+    const existingEmail = await this.userRepository.findOneBy({ email });
+
+    if (existingUsername && existingEmail) {
+      throw new UniqueUserValueException('username and email must be unique');
+    } else if (existingUsername) {
+      throw new UniqueUserValueException('username must be unique');
+    } else if (existingEmail) {
+      throw new UniqueUserValueException('email must be unique');
+    }
+
+    const user = this.userRepository.create(dto);
+    return await this.userRepository.save(user);
   }
 
   async update(id: string, dto: UpdateUserDTO): Promise<UserResponseDTO> {
@@ -56,18 +64,11 @@ export class UserService {
       updatedUser.password = await bcrypt.hash(dto.password, 10);
     }
 
-    const savedUser = await this.userRepository.save(updatedUser);
-    return this.toUserResponseDTO(savedUser);
+    return await this.userRepository.save(updatedUser);
   }
 
   async delete(id: string): Promise<DeleteResult> {
-    await this.findById(id);
-    return this.userRepository.delete(id);
-  }
-
-  public toUserResponseDTO(user: UserEntity): UserResponseDTO {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...result } = user;
-    return result as UserResponseDTO;
+    const user = await this.findById(id);
+    return this.userRepository.delete(user.id);
   }
 }

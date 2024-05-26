@@ -14,5 +14,5 @@ export class UpdateUserDTO {
   @IsNotEmpty()
   @MinLength(8)
   @IsOptional()
-  readonly password: string;
+  readonly password?: string;
 }

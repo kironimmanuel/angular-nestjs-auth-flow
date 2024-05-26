@@ -1,5 +1,6 @@
 import { UserRole } from '@nx-angular-nestjs-authentication/models';
 import * as bcrypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user')
@@ -13,6 +14,7 @@ export class UserEntity {
   @Column({ unique: true, nullable: false })
   email: string;
 
+  @Exclude()
   @Column({ nullable: false })
   password: string;
 

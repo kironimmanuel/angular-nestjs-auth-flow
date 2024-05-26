@@ -6,7 +6,7 @@ export class LoginUserResponseDTO {
   readonly id: string;
 
   @IsNotEmpty()
-  readonly username?: string;
+  readonly username: string;
 
   @IsNotEmpty()
   readonly email: string;
