@@ -33,7 +33,7 @@ export class AuthService {
     return null;
   }
 
-  async verify(user: LoginUserDTO): Promise<LoginUserResponseDTO> {
+  async verifyUser(user: LoginUserDTO): Promise<LoginUserResponseDTO> {
     const payload: JwtPayloadDTO = JwtPayloadFactory.create(user);
 
     const accessToken = this.generateJwtToken(payload);
@@ -42,7 +42,7 @@ export class AuthService {
     return Object.assign(user, { accessToken, refreshToken }) as LoginUserResponseDTO;
   }
 
-  async refresh(user: LoginUserDTO): Promise<{ accessToken: string }> {
+  async refreshAccessToken(user: LoginUserDTO): Promise<{ accessToken: string }> {
     const payload: JwtPayloadDTO = JwtPayloadFactory.create(user);
 
     const accessToken = this.generateJwtToken(payload);

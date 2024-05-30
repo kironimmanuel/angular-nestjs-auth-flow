@@ -1,3 +1,4 @@
+export { AccessTokenDTO } from './AccessToken.dto';
 export { CreateUserDTO } from './CreateUser.dto';
 export { CreateUserResponseDTO } from './CreateUserResponse.dto';
 export { JwtPayloadDTO } from './JwtPayload.dto';
