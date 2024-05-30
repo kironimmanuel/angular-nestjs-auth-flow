@@ -83,7 +83,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 |        |                            |          |   |               |
 |        |<-(D)- Protected Resource --| Resource |   | Authorization |
 | Client |                            |  Server  |   |     Server    |
-|        |--(E)---- Access Token ---->|  (WIP)   |   |               |
+|        |--(E)---- Access Token ---->|          |   |               |
 |        |                            |          |   |               |
 |        |<-(F)- Invalid Token Error -|          |   |               |
 |        |                            +----------+   |               |
