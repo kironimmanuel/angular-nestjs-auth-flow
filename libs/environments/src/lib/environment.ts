@@ -2,10 +2,10 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000/api',
-  accessTokenLifetime: 1800,
-  refreshTokenLifetime: '7d',
+    production: false,
+    apiUrl: 'http://localhost:3000/api',
+    accessTokenLifetime: 1800,
+    refreshTokenLifetime: '7d',
 };
 
 /*

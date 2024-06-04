@@ -11,26 +11,34 @@ import { AppRoute } from '../../../shared/enums';
 import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
-  selector: 'app-layout-header',
-  templateUrl: './header.component.html',
-  imports: [CommonModule, MatIcon, MatButtonModule, RouterLink, SessionTimerComponent, MatTooltipModule, MatMenuModule],
-  styleUrl: './header.component.css',
-  standalone: true,
+    selector: 'app-layout-header',
+    templateUrl: './header.component.html',
+    imports: [
+        CommonModule,
+        MatIcon,
+        MatButtonModule,
+        RouterLink,
+        SessionTimerComponent,
+        MatTooltipModule,
+        MatMenuModule,
+    ],
+    styleUrl: './header.component.css',
+    standalone: true,
 })
 export class HeaderComponent implements OnInit {
-  currentUser: User | null;
+    currentUser: User | null;
 
-  homeRoute = AppRoute.HOME;
-  loginRoute = AppRoute.LOGIN;
-  registerRoute = AppRoute.REGISTER;
-  profileRoute = AppRoute.PROFILE;
-  newsRoute = AppRoute.NEWS;
+    homeRoute = AppRoute.HOME;
+    loginRoute = AppRoute.LOGIN;
+    registerRoute = AppRoute.REGISTER;
+    profileRoute = AppRoute.PROFILE;
+    newsRoute = AppRoute.NEWS;
 
-  constructor(readonly authService: AuthService) {}
+    constructor(readonly authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.authService.currentUser.subscribe((user) => {
-      this.currentUser = user;
-    });
-  }
+    ngOnInit(): void {
+        this.authService.currentUser.subscribe((user) => {
+            this.currentUser = user;
+        });
+    }
 }

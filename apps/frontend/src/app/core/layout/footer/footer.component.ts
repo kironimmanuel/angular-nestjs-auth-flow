@@ -5,14 +5,14 @@ import { RouterLink } from '@angular/router';
 import { AppRoute } from '../../../shared/enums';
 
 @Component({
-  selector: 'app-layout-footer',
-  templateUrl: './footer.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe, RouterLink, MatDividerModule],
-  standalone: true,
+    selector: 'app-layout-footer',
+    templateUrl: './footer.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [DatePipe, RouterLink, MatDividerModule],
+    standalone: true,
 })
 export class FooterComponent {
-  today: number = Date.now();
-  privacyRoute = AppRoute.PRIVACY;
-  termsOfServiceRoute = AppRoute.TERMS_OF_SERVICE;
+    today: number = Date.now();
+    privacyRoute = AppRoute.PRIVACY;
+    termsOfServiceRoute = AppRoute.TERMS_OF_SERVICE;
 }

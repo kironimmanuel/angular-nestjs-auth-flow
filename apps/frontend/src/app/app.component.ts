@@ -5,9 +5,9 @@ import { HeaderComponent } from './core/layout/header/header.component';
 import { ToastComponent } from './shared/notification/toast/toast.component';
 
 @Component({
-  standalone: true,
-  imports: [RouterModule, HeaderComponent, FooterComponent, ToastComponent],
-  selector: 'app-root',
-  templateUrl: './app.component.html',
+    standalone: true,
+    imports: [RouterModule, HeaderComponent, FooterComponent, ToastComponent],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
 })
 export class AppComponent {}

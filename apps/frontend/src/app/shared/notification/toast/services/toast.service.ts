@@ -2,58 +2,58 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 interface Toast {
-  title?: string;
-  content: string;
-  type?: ToastType;
+    title?: string;
+    content: string;
+    type?: ToastType;
 }
 
 export enum ToastType {
-  SUCCESS = 'success',
-  INFO = 'info',
-  WARNING = 'warning',
-  ERROR = 'error',
+    SUCCESS = 'success',
+    INFO = 'info',
+    WARNING = 'warning',
+    ERROR = 'error',
 }
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ToastService {
-  private toastSubject = new Subject<Toast>();
-  toasts$ = this.toastSubject.asObservable();
+    private toastSubject = new Subject<Toast>();
+    toasts$ = this.toastSubject.asObservable();
 
-  private createToast(data: Toast) {
-    if (!data.title) {
-      switch (data.type) {
-        case ToastType.SUCCESS:
-          data.title = 'Success';
-          break;
-        case ToastType.INFO:
-          data.title = 'Info';
-          break;
-        case ToastType.WARNING:
-          data.title = 'Warning';
-          break;
-        case ToastType.ERROR:
-          data.title = 'Error';
-          break;
-      }
+    private createToast(data: Toast) {
+        if (!data.title) {
+            switch (data.type) {
+                case ToastType.SUCCESS:
+                    data.title = 'Success';
+                    break;
+                case ToastType.INFO:
+                    data.title = 'Info';
+                    break;
+                case ToastType.WARNING:
+                    data.title = 'Warning';
+                    break;
+                case ToastType.ERROR:
+                    data.title = 'Error';
+                    break;
+            }
+        }
+        this.toastSubject.next({ ...data });
     }
-    this.toastSubject.next({ ...data });
-  }
 
-  success(data: Toast) {
-    this.createToast({ ...data, type: ToastType.SUCCESS });
-  }
+    success(data: Toast) {
+        this.createToast({ ...data, type: ToastType.SUCCESS });
+    }
 
-  info(data: Toast) {
-    this.createToast({ ...data, type: ToastType.INFO });
-  }
+    info(data: Toast) {
+        this.createToast({ ...data, type: ToastType.INFO });
+    }
 
-  warning(data: Toast) {
-    this.createToast({ ...data, type: ToastType.WARNING });
-  }
+    warning(data: Toast) {
+        this.createToast({ ...data, type: ToastType.WARNING });
+    }
 
-  error(data: Toast) {
-    this.createToast({ ...data, type: ToastType.ERROR });
-  }
+    error(data: Toast) {
+        this.createToast({ ...data, type: ToastType.ERROR });
+    }
 }

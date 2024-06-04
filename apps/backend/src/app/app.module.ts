@@ -10,9 +10,9 @@ import { UsersModule } from './core/user/user.module';
 import { DatabaseSeederService } from './db/database-seeder.service';
 
 @Module({
-  // We must use the UserEntity in the TypeOrmModule.forFeature() here for the database seeding
-  imports: [TypeOrmModule.forRoot(ormConfig), TypeOrmModule.forFeature([UserEntity]), UsersModule, AuthModule],
-  controllers: [AppController],
-  providers: [AppService, DatabaseSeederService],
+    // We must use the UserEntity in the TypeOrmModule.forFeature() here for the database seeding
+    imports: [TypeOrmModule.forRoot(ormConfig), TypeOrmModule.forFeature([UserEntity]), UsersModule, AuthModule],
+    controllers: [AppController],
+    providers: [AppService, DatabaseSeederService],
 })
 export class AppModule {}

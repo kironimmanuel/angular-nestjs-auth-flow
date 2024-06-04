@@ -1,24 +1,24 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "lib": ["es2020", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "strictPropertyInitialization": false,
-    "baseUrl": ".",
-    "paths": {
-      "@nx-angular-nestjs-authentication/environments": ["libs/environments/src/index.ts"],
-      "@nx-angular-nestjs-authentication/models": ["libs/models/src/index.ts"]
-    }
-  },
-  "exclude": ["node_modules", "tmp"]
+    "compileOnSave": false,
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "target": "es2015",
+        "module": "esnext",
+        "lib": ["es2020", "dom"],
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "strictPropertyInitialization": false,
+        "baseUrl": ".",
+        "paths": {
+            "@nx-angular-nestjs-authentication/environments": ["libs/environments/src/index.ts"],
+            "@nx-angular-nestjs-authentication/models": ["libs/models/src/index.ts"]
+        }
+    },
+    "exclude": ["node_modules", "tmp"]
 }

@@ -9,8 +9,8 @@ import { AuthService } from './auth.service';
 import { JwtStrategy, LocalStrategy, RefreshJwtStrategy } from './strategies';
 
 @Module({
-  providers: [AuthService, UserService, LocalStrategy, JwtStrategy, RefreshJwtStrategy],
-  controllers: [AuthController],
-  imports: [TypeOrmModule.forFeature([UserEntity]), JwtModule.register(jwtConfig)],
+    providers: [AuthService, UserService, LocalStrategy, JwtStrategy, RefreshJwtStrategy],
+    controllers: [AuthController],
+    imports: [TypeOrmModule.forFeature([UserEntity]), JwtModule.register(jwtConfig)],
 })
 export class AuthModule {}

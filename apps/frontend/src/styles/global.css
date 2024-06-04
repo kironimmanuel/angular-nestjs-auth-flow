@@ -1,74 +1,74 @@
 :root {
-  --clr-white: #fff;
-  --clr-black: #000;
+    --clr-white: #fff;
+    --clr-black: #000;
 
-  --clr-primary-100: #cce5ff;
-  --clr-primary-200: #99ccff;
-  --clr-primary-300: #66b2ff;
+    --clr-primary-100: #cce5ff;
+    --clr-primary-200: #99ccff;
+    --clr-primary-300: #66b2ff;
 
-  --clr-secondary-100: #f8f9fa;
-  --clr-secondary-200: #e9ecef;
-  --clr-secondary-300: #dee2e6;
+    --clr-secondary-100: #f8f9fa;
+    --clr-secondary-200: #e9ecef;
+    --clr-secondary-300: #dee2e6;
 
-  --clr-bg-dark: #343a40;
-  --clr-bg-light: #fdfeff;
+    --clr-bg-dark: #343a40;
+    --clr-bg-light: #fdfeff;
 
-  --clr-success-dark: #28a745;
-  --clr-success-light: #e6ffed;
-  --clr-info-dark: #2563eb;
-  --clr-info-light: #deebff;
-  --clr-danger-dark: #dc3545;
-  --clr-danger-light: #f8d7da;
-  --clr-warning-dark: #ffc107;
-  --clr-warning-light: #fff3cd;
+    --clr-success-dark: #28a745;
+    --clr-success-light: #e6ffed;
+    --clr-info-dark: #2563eb;
+    --clr-info-light: #deebff;
+    --clr-danger-dark: #dc3545;
+    --clr-danger-light: #f8d7da;
+    --clr-warning-dark: #ffc107;
+    --clr-warning-light: #fff3cd;
 }
 
 *,
 ::after,
 ::before {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 ::ng-deep * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+    background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 1.5rem;
+    background: #888;
+    border-radius: 1.5rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+    background: #555;
 }
 
 html,
 body {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  background: var(--clr-bg-light);
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+    background: var(--clr-bg-light);
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 footer {
-  height: 60px;
+    height: 60px;
 }
 
 nav {
-  height: 60px;
+    height: 60px;
 }
 
 h1,
@@ -78,16 +78,16 @@ h4,
 h5,
 h6,
 p {
-  margin: 0 !important;
+    margin: 0 !important;
 }
 
 a {
-  text-decoration: none;
-  color: var(--clr-info-dark);
+    text-decoration: none;
+    color: var(--clr-info-dark);
 }
 
 .page {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  min-height: calc(100vh - 125px);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    min-height: calc(100vh - 125px);
 }

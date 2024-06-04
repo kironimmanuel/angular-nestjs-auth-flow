@@ -13,72 +13,72 @@ import { NewsArticle } from './models/NewsArticle';
 import { NewsService } from './services/news.service';
 
 @Component({
-  selector: 'app-news',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    MatTableModule,
-    LoadingSpinnerComponent,
-    MatPaginatorModule,
-    DateTimeFormatPipe,
-  ],
-  templateUrl: './news.component.html',
+    selector: 'app-news',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatCardModule,
+        MatDividerModule,
+        MatListModule,
+        MatTableModule,
+        LoadingSpinnerComponent,
+        MatPaginatorModule,
+        DateTimeFormatPipe,
+    ],
+    templateUrl: './news.component.html',
 })
 export class NewsComponent implements OnInit {
-  displayedColumns: string[] = ['title', 'createdAt', 'author', 'url'];
-  currentUser: User | null;
-  newsArticles: NewsArticle[] = [];
-  isLoading = true;
+    displayedColumns: string[] = ['title', 'createdAt', 'author', 'url'];
+    currentUser: User | null;
+    newsArticles: NewsArticle[] = [];
+    isLoading = true;
 
-  pageEvent: PageEvent;
-  length = 0;
-  pageSize = 10;
-  pageIndex = 0;
-  pageSizeOptions = [5, 10, 25];
+    pageEvent: PageEvent;
+    length = 0;
+    pageSize = 10;
+    pageIndex = 0;
+    pageSizeOptions = [5, 10, 25];
 
-  hidePageSize = false;
-  showPageSizeOptions = true;
-  showFirstLastButtons = true;
-  disabled = false;
+    hidePageSize = false;
+    showPageSizeOptions = true;
+    showFirstLastButtons = true;
+    disabled = false;
 
-  constructor(readonly authService: AuthService, private newsService: NewsService) {
-    this.authService.currentUser.subscribe((user) => {
-      this.currentUser = user;
-    });
-  }
+    constructor(readonly authService: AuthService, private newsService: NewsService) {
+        this.authService.currentUser.subscribe((user) => {
+            this.currentUser = user;
+        });
+    }
 
-  ngOnInit(): void {
-    this.newsService.getNewsArticles().subscribe({
-      next: (response) => {
-        this.length = response.nbPages * response.hitsPerPage;
-        this.newsArticles = response.hits;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.isLoading = false;
-        console.error(error);
-      },
-    });
-  }
+    ngOnInit(): void {
+        this.newsService.getNewsArticles().subscribe({
+            next: (response) => {
+                this.length = response.nbPages * response.hitsPerPage;
+                this.newsArticles = response.hits;
+                this.isLoading = false;
+            },
+            error: (error) => {
+                this.isLoading = false;
+                console.error(error);
+            },
+        });
+    }
 
-  handlePageEvent(e: PageEvent) {
-    this.isLoading = true;
-    this.pageSize = e.pageSize;
-    this.pageIndex = e.pageIndex;
-    this.length = e.length;
+    handlePageEvent(e: PageEvent) {
+        this.isLoading = true;
+        this.pageSize = e.pageSize;
+        this.pageIndex = e.pageIndex;
+        this.length = e.length;
 
-    this.newsService.getNewsArticles(this.pageIndex, this.pageSize).subscribe({
-      next: (response) => {
-        this.newsArticles = response.hits;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.isLoading = false;
-        console.error(error);
-      },
-    });
-  }
+        this.newsService.getNewsArticles(this.pageIndex, this.pageSize).subscribe({
+            next: (response) => {
+                this.newsArticles = response.hits;
+                this.isLoading = false;
+            },
+            error: (error) => {
+                this.isLoading = false;
+                console.error(error);
+            },
+        });
+    }
 }

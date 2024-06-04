@@ -6,15 +6,15 @@ import { StrategyKey } from '../../../shared/enums';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, StrategyKey.JWT) {
-  constructor() {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET,
-    });
-  }
+    constructor() {
+        super({
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            ignoreExpiration: false,
+            secretOrKey: process.env.JWT_SECRET,
+        });
+    }
 
-  async validate(payload: JwtPayloadDTO) {
-    return { sub: payload.sub, username: payload.username, email: payload.email, role: payload.role };
-  }
+    async validate(payload: JwtPayloadDTO) {
+        return { sub: payload.sub, username: payload.username, email: payload.email, role: payload.role };
+    }
 }

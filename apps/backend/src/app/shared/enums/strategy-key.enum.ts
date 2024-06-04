@@ -1,5 +1,5 @@
 export enum StrategyKey {
-  JWT = 'jwt',
-  LOCAL = 'local',
-  REFRESH = 'jwt-refresh',
+    JWT = 'jwt',
+    LOCAL = 'local',
+    REFRESH = 'jwt-refresh',
 }

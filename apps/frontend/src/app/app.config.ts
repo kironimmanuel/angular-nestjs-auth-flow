@@ -10,19 +10,19 @@ import { apiInterceptor, errorInterceptor } from './core/interceptors';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 
 export function initAuth(jwtService: JwtService, authService: AuthService) {
-  return () => (jwtService.getAccessTokenFromLocalStorage() ? authService.getCurrentUser() : EMPTY);
+    return () => (jwtService.getAccessTokenFromLocalStorage() ? authService.getCurrentUser() : EMPTY);
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(appRoutes),
-    provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([apiInterceptor, tokenInterceptor, errorInterceptor])),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initAuth,
-      deps: [JwtService, AuthService],
-      multi: true,
-    },
-  ],
+    providers: [
+        provideRouter(appRoutes),
+        provideAnimationsAsync(),
+        provideHttpClient(withInterceptors([apiInterceptor, tokenInterceptor, errorInterceptor])),
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initAuth,
+            deps: [JwtService, AuthService],
+            multi: true,
+        },
+    ],
 };

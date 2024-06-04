@@ -6,22 +6,24 @@ import { ToastService } from '../../../shared/notification/toast/services/toast.
 import { ApiResponse } from '../models/NewsArticle';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class NewsService {
-  constructor(private readonly http: HttpClient, private readonly toast: ToastService) {}
+    constructor(private readonly http: HttpClient, private readonly toast: ToastService) {}
 
-  getNewsArticles(page = 0, hitsPerPage = 10): Observable<ApiResponse> {
-    return this.http
-      .get<ApiResponse>(`https://hn.algolia.com/api/v1/search?query=react&page=${page}&hitsPerPage=${hitsPerPage}`)
-      .pipe(
-        catchError((error) => {
-          this.toast.error({
-            title: 'Error',
-            content: 'An error occurred while fetching news articles',
-          });
-          return throwError(() => error);
-        })
-      );
-  }
+    getNewsArticles(page = 0, hitsPerPage = 10): Observable<ApiResponse> {
+        return this.http
+            .get<ApiResponse>(
+                `https://hn.algolia.com/api/v1/search?query=react&page=${page}&hitsPerPage=${hitsPerPage}`
+            )
+            .pipe(
+                catchError((error) => {
+                    this.toast.error({
+                        title: 'Error',
+                        content: 'An error occurred while fetching news articles',
+                    });
+                    return throwError(() => error);
+                })
+            );
+    }
 }
