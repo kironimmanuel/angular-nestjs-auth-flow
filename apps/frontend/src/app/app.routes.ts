@@ -1,10 +1,10 @@
 import { Route } from '@angular/router';
-import { AuthGuard } from './core/auth/services/auth-guard.service';
+import { AuthGuard } from './core/auth/guards/auth.guard';
 
 export const appRoutes: Route[] = [
   {
     path: '',
-    loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
+    loadComponent: () => import('./features/landing/landing.component').then((m) => m.LandingComponent),
   },
   {
     path: 'login',
@@ -21,11 +21,6 @@ export const appRoutes: Route[] = [
   {
     path: 'terms-of-service',
     loadComponent: () => import('./features/terms/terms.component').then((m) => m.TermsComponent),
-  },
-  {
-    path: 'dashboard',
-    canActivate: [AuthGuard],
-    loadComponent: () => import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
   },
   {
     path: 'news',

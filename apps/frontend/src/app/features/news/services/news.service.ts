@@ -11,12 +11,17 @@ import { ApiResponse } from '../models/NewsArticle';
 export class NewsService {
   constructor(private readonly http: HttpClient, private readonly toast: ToastService) {}
 
-  getAllNews(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>('https://hn.algolia.com/api/v1/search?query=react&page=0&hitsPerPage=8').pipe(
-      catchError((error) => {
-        console.error('Error fetching news articles:', error);
-        return throwError(() => error);
-      })
-    );
+  getNewsArticles(page = 0, hitsPerPage = 10): Observable<ApiResponse> {
+    return this.http
+      .get<ApiResponse>(`https://hn.algolia.com/api/v1/search?query=react&page=${page}&hitsPerPage=${hitsPerPage}`)
+      .pipe(
+        catchError((error) => {
+          this.toast.error({
+            title: 'Error',
+            content: 'An error occurred while fetching news articles',
+          });
+          return throwError(() => error);
+        })
+      );
   }
 }

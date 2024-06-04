@@ -29,7 +29,7 @@ export class SessionTimerComponent implements OnDestroy {
       this.intervalId = setInterval(() => this.updateTimerDisplay(), 1000);
     } else {
       this.remainingTime = warningMessage.NO_ACTIVE_SESSION.title;
-      this.toast.warning(warningMessage.NO_ACTIVE_SESSION);
+      // this.toast.warning(warningMessage.NO_ACTIVE_SESSION);
       // this.authService.logout();
     }
   }

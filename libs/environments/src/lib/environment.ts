@@ -4,7 +4,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000/api',
-  accessTokenLifetime: 9000,
+  accessTokenLifetime: 1800,
   refreshTokenLifetime: '7d',
 };
 

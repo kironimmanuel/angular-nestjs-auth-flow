@@ -12,19 +12,19 @@ import {
   UserResponseDTO,
 } from '@nx-angular-nestjs-authentication/models';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { ApiEndpoint, AppRoute } from '../../../shared/enums';
 import { errorMessage } from '../../../shared/notification/messages';
 import { successMessage } from '../../../shared/notification/messages/success.message';
 import { ToastService } from '../../../shared/notification/toast/services/toast.service';
 import { JwtService } from './jwt.service';
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
+  public isAuthenticated = this.currentUser.pipe(map((user) => !!user));
 
   constructor(
     private readonly http: HttpClient,
@@ -32,10 +32,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly toast: ToastService,
     private readonly dialog: MatDialog
-  ) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(null);
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
+  ) {}
 
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
@@ -48,10 +45,6 @@ export class AuthService {
         error: () => this.purgeAuth(),
       })
     );
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.currentUserValue;
   }
 
   register(user: CreateUserDTO): Observable<CreateUserResponseDTO> {
@@ -87,9 +80,9 @@ export class AuthService {
         this.currentUserSubject.next(updatedUser);
         this.toast.success(successMessage.PROFILE_UPDATE);
       }),
-      catchError(() => {
+      catchError((error) => {
         this.toast.error(errorMessage.GENERIC);
-        return throwError(errorMessage.GENERIC);
+        return throwError(() => error);
       })
     );
   }

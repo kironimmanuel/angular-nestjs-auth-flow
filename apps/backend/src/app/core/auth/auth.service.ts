@@ -35,7 +35,6 @@ export class AuthService {
 
   async verifyUser(user: LoginUserDTO): Promise<LoginUserResponseDTO> {
     const payload: JwtPayloadDTO = JwtPayloadFactory.create(user);
-
     const accessToken = this.generateJwtToken(payload);
     const refreshToken = this.generateRefreshJwtToken(payload);
 
@@ -44,7 +43,6 @@ export class AuthService {
 
   async refreshAccessToken(user: LoginUserDTO): Promise<{ accessToken: string }> {
     const payload: JwtPayloadDTO = JwtPayloadFactory.create(user);
-
     const accessToken = this.generateJwtToken(payload);
 
     return { accessToken };
