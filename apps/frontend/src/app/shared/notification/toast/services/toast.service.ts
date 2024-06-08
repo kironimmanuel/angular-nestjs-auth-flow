@@ -41,19 +41,27 @@ export class ToastService {
         this.toastSubject.next({ ...data });
     }
 
-    success(data: Toast) {
-        this.createToast({ ...data, type: ToastType.SUCCESS });
+    success(data: Toast | string) {
+        this.createToast(
+            typeof data === 'string' ? { content: data, type: ToastType.SUCCESS } : { ...data, type: ToastType.SUCCESS }
+        );
     }
 
-    info(data: Toast) {
-        this.createToast({ ...data, type: ToastType.INFO });
+    info(data: Toast | string) {
+        this.createToast(
+            typeof data === 'string' ? { content: data, type: ToastType.INFO } : { ...data, type: ToastType.INFO }
+        );
     }
 
-    warning(data: Toast) {
-        this.createToast({ ...data, type: ToastType.WARNING });
+    warning(data: Toast | string) {
+        this.createToast(
+            typeof data === 'string' ? { content: data, type: ToastType.WARNING } : { ...data, type: ToastType.WARNING }
+        );
     }
 
-    error(data: Toast) {
-        this.createToast({ ...data, type: ToastType.ERROR });
+    error(data: Toast | string) {
+        this.createToast(
+            typeof data === 'string' ? { content: data, type: ToastType.ERROR } : { ...data, type: ToastType.ERROR }
+        );
     }
 }

@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { ErrorCode } from '@nx-angular-nestjs-authentication/models';
 
 export class UserNotFoundException extends HttpException {
     constructor(message: string) {
-        super(message, HttpStatus.NOT_FOUND);
+        super({ message, errorCode: ErrorCode.USER_NOT_FOUND }, HttpStatus.NOT_FOUND);
     }
 }

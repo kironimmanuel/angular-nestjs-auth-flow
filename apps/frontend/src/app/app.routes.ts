@@ -15,6 +15,11 @@ export const appRoutes: Route[] = [
         loadComponent: () => import('./core/auth/auth.component').then((m) => m.AuthComponent),
     },
     {
+        path: 'verify-email',
+        loadComponent: () =>
+            import('./core/auth/pages/verify-email/verify-email.component').then((m) => m.VerifyEmailComponent),
+    },
+    {
         path: 'privacy',
         loadComponent: () => import('./features/privacy/privacy.component').then((m) => m.PrivacyComponent),
     },

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { JwtToken } from '@nx-angular-nestjs-authentication/models';
+import { ErrorDTO, JwtToken } from '@nx-angular-nestjs-authentication/models';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { ApiEndpoint } from '../../../shared/enums';
@@ -39,7 +39,7 @@ export class JwtService {
         const refreshToken = this.getRefreshTokenFromLocalStorage();
         if (!refreshToken) {
             this.toast.error(errorMessage.UNAUTHORIZED);
-            return throwError(() => new Error(errorMessage.UNAUTHORIZED.title));
+            return throwError(() => new Error(errorMessage.GENERIC));
         }
 
         return this.http.post<{ accessToken: string }>(ApiEndpoint.REFRESH_TOKEN, { refreshToken }).pipe(
@@ -47,9 +47,10 @@ export class JwtService {
                 this.setAccessTokenToLocalStorage(response.accessToken);
                 return { accessToken: response.accessToken };
             }),
-            catchError((error) => {
+            catchError((error: ErrorDTO) => {
                 this.removeAllTokenFromLocalStorage();
-                return throwError(() => new Error(error));
+                this.toast.error(errorMessage.GENERIC);
+                return throwError(() => new Error(error.message));
             })
         );
     }

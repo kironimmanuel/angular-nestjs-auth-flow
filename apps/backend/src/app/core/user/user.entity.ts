@@ -21,6 +21,15 @@ export class UserEntity {
     @Column({ type: 'text', default: UserRole.USER })
     role: UserRole;
 
+    @Column({ nullable: true })
+    verificationToken: string;
+
+    @Column({ default: false })
+    isVerified: boolean;
+
+    @Column({ nullable: true })
+    verifiedAt: Date;
+
     @BeforeInsert()
     async hashPassword() {
         this.password = await bcrypt.hash(this.password, 10);

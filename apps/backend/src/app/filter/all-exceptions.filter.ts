@@ -27,13 +27,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
         }
 
         const statusText = http.STATUS_CODES[status];
+        const errorCode = exception instanceof HttpException ? exception.getResponse()['errorCode'] : undefined;
 
         const errorResponse = new ErrorResponse(
             status,
             statusText,
             message.toString(),
             new Date().toISOString(),
-            request.url
+            request.url,
+            errorCode
         );
 
         this.logger.error(`[${status}] ${message}`, exception.toString());

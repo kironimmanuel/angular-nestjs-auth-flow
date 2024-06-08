@@ -1,21 +1,20 @@
+import * as bcrypt from 'bcrypt';
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-    CreateUserDTO,
-    CreateUserResponseDTO,
-    UpdateUserDTO,
-    UserResponseDTO,
-} from '@nx-angular-nestjs-authentication/models';
-import * as bcrypt from 'bcrypt';
+import { CreateUserDTO, UpdateUserDTO, UserResponseDTO } from '@nx-angular-nestjs-authentication/models';
+import crypto from 'crypto';
 import { DeleteResult, Repository } from 'typeorm';
-import { UniqueUserValueException, UserNotFoundException } from './exceptions';
+import { UniqueUserValueException, UserNotFoundException } from '../../shared/exceptions';
+import { MailService } from '../mail/mail.service';
 import { UserEntity } from './user.entity';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(UserEntity)
-        private readonly userRepository: Repository<UserEntity>
+        private readonly userRepository: Repository<UserEntity>,
+        private readonly mailService: MailService
     ) {}
 
     async findAll(): Promise<UserResponseDTO[]> {
@@ -38,7 +37,7 @@ export class UserService {
         return user;
     }
 
-    async create(dto: CreateUserDTO): Promise<CreateUserResponseDTO> {
+    async create(dto: CreateUserDTO): Promise<void> {
         const { username, email } = dto;
 
         const existingUsername = await this.userRepository.findOneBy({ username });
@@ -52,8 +51,13 @@ export class UserService {
             throw new UniqueUserValueException('email must be unique');
         }
 
-        const user = this.userRepository.create(dto);
-        return await this.userRepository.save(user);
+        const verificationToken = crypto.randomBytes(40).toString('hex');
+        const userWithVerificationToken = Object.assign(dto, { verificationToken });
+
+        const newUser = this.userRepository.create(userWithVerificationToken);
+        await this.userRepository.save(newUser);
+
+        await this.mailService.sendVerificationEmail({ email, username, verificationToken });
     }
 
     async update(id: string, dto: UpdateUserDTO): Promise<UserResponseDTO> {

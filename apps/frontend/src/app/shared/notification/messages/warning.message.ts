@@ -1,10 +1,6 @@
-export const warningMessage = {
-    NO_ACTIVE_SESSION: {
-        title: 'No active session!',
-        content: 'Please login to continue.',
-    },
-    SESSION_EXPIRED: {
-        title: 'Session expired!',
-        content: 'Please login again.',
-    },
+type WarningCode = 'NO_ACTIVE_SESSION' | 'SESSION_EXPIRED';
+
+export const warningMessage: Record<WarningCode, string> = {
+    NO_ACTIVE_SESSION: 'No active session found! Please login to continue.',
+    SESSION_EXPIRED: 'Session expired!',
 };

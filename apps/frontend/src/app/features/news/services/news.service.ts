@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { errorMessage } from '../../../shared/notification/messages';
 import { ToastService } from '../../../shared/notification/toast/services/toast.service';
 import { ApiResponse } from '../models/NewsArticle';
 
@@ -18,10 +19,7 @@ export class NewsService {
             )
             .pipe(
                 catchError((error) => {
-                    this.toast.error({
-                        title: 'Error',
-                        content: 'An error occurred while fetching news articles',
-                    });
+                    this.toast.error(errorMessage.GENERIC);
                     return throwError(() => error);
                 })
             );

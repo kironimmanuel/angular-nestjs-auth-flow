@@ -1,0 +1,11 @@
+.verification-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.verification-container {
+    max-width: 375px;
+    height: min-content !important;
+    height: auto;
+}

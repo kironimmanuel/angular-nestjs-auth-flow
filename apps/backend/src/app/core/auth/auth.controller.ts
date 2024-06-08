@@ -15,6 +15,7 @@ import {
     LoginUserDTO,
     LoginUserResponseDTO,
     RefreshTokenDTO,
+    VerifyEmailDTO,
 } from '@nx-angular-nestjs-authentication/models';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard, RefreshJwtAuthGuard } from './guards';
@@ -32,7 +33,15 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @Post('login')
     async login(@Request() request, @Body() _: LoginUserDTO) {
-        return await this.authService.verifyUser(request.user);
+        return await this.authService.login(request.user);
+    }
+
+    @ApiOperation({ summary: 'Verify Email' })
+    @ApiResponse({ status: 200, description: 'Email verified' })
+    @HttpCode(HttpStatus.OK)
+    @Post('/verify-email')
+    async verifyEmail(@Body() verifyEmailDto: VerifyEmailDTO) {
+        return await this.authService.verifyEmail(verifyEmailDto);
     }
 
     @ApiOperation({ summary: 'Refresh Access Token' })

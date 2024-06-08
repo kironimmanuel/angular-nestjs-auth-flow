@@ -14,12 +14,7 @@ import {
     UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import {
-    CreateUserDTO,
-    CreateUserResponseDTO,
-    UpdateUserDTO,
-    UserResponseDTO,
-} from '@nx-angular-nestjs-authentication/models';
+import { CreateUserDTO, UpdateUserDTO, UserResponseDTO } from '@nx-angular-nestjs-authentication/models';
 import { JwtAuthGuard } from '../auth/guards';
 import { UserService } from './user.service';
 
@@ -31,7 +26,7 @@ export class UserController {
 
     @ApiOperation({ summary: 'Get all Users' })
     @ApiResponse({ status: 200, description: 'All Users', type: UserResponseDTO, isArray: true })
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get('users')
     async getUsers() {
@@ -49,7 +44,7 @@ export class UserController {
     }
 
     @ApiOperation({ summary: 'Create a User' })
-    @ApiResponse({ status: 201, description: 'User created', type: CreateUserResponseDTO })
+    @ApiResponse({ status: 201, description: 'User created' })
     @HttpCode(HttpStatus.CREATED)
     @Post('register')
     async createUser(@Body() createUserDto: CreateUserDTO) {

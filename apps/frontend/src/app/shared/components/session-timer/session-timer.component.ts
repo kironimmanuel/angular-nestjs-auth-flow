@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { JwtService } from '../../../core/auth/services/jwt.service';
 import { warningMessage } from '../../notification/messages';
-import { ToastService } from '../../notification/toast/services/toast.service';
 import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
@@ -17,20 +16,13 @@ export class SessionTimerComponent implements OnDestroy {
     private dialogTriggered = false;
     remainingTime: string;
 
-    constructor(
-        public jwtService: JwtService,
-        public authService: AuthService,
-        public dialog: MatDialog,
-        private toast: ToastService
-    ) {
+    constructor(public jwtService: JwtService, public authService: AuthService, public dialog: MatDialog) {
         const sessionExpiration = this.jwtService.getRemainingSessionTime();
         if (sessionExpiration !== null) {
             this.updateTimerDisplay();
             this.intervalId = setInterval(() => this.updateTimerDisplay(), 1000);
         } else {
-            this.remainingTime = warningMessage.NO_ACTIVE_SESSION.title;
-            // this.toast.warning(warningMessage.NO_ACTIVE_SESSION);
-            // this.authService.logout();
+            this.remainingTime = warningMessage.NO_ACTIVE_SESSION;
         }
     }
 
@@ -42,22 +34,18 @@ export class SessionTimerComponent implements OnDestroy {
         const remainingTimeInMs = this.jwtService.getRemainingSessionTime();
 
         if (remainingTimeInMs === null) {
-            this.remainingTime = warningMessage.NO_ACTIVE_SESSION.title;
-            // this.toast.warning(warningMessage.NO_ACTIVE_SESSION);
-            // this.authService.logout();
+            this.remainingTime = warningMessage.NO_ACTIVE_SESSION;
             return;
         }
 
         if (remainingTimeInMs <= 0) {
-            this.remainingTime = warningMessage.SESSION_EXPIRED.title;
-            // this.toast.warning(warningMessage.SESSION_EXPIRED);
-            // this.authService.logout();
+            this.remainingTime = warningMessage.SESSION_EXPIRED;
             return;
         }
 
-        // if (remainingTimeInMs < this.sessionExpirationWarningThreshold && !this.dialogTriggered) {
-        //   this.triggerSessionExpiryDialog();
-        // }
+        if (remainingTimeInMs < this.sessionExpirationWarningThreshold && !this.dialogTriggered) {
+            this.triggerSessionExpiryDialog();
+        }
 
         this.remainingTime = this.formatTime(remainingTimeInMs);
     }

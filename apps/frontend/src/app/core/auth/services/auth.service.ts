@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import {
     CreateUserDTO,
     CreateUserResponseDTO,
+    ErrorDTO,
     LoginUserDTO,
     LoginUserResponseDTO,
     UpdateUserDTO,
@@ -12,7 +13,7 @@ import {
     UserResponseDTO,
 } from '@nx-angular-nestjs-authentication/models';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { ApiEndpoint, AppRoute } from '../../../shared/enums';
 import { errorMessage } from '../../../shared/notification/messages';
 import { successMessage } from '../../../shared/notification/messages/success.message';
@@ -42,19 +43,18 @@ export class AuthService {
         return this.http.get<UserResponseDTO>(ApiEndpoint.CURRENT_USER).pipe(
             tap({
                 next: (user) => this.currentUserSubject.next(user as User),
-                error: () => this.purgeAuth(),
+                error: () => {
+                    this.toast.error(errorMessage.GENERIC);
+                    this.purgeAuth();
+                },
             })
         );
     }
 
     register(user: CreateUserDTO): Observable<CreateUserResponseDTO> {
         return this.http.post<CreateUserResponseDTO>(ApiEndpoint.REGISTER, user).pipe(
-            tap(() => {
-                this.toast.success(successMessage.REGISTRATION);
-            }),
-            switchMap(() => this.login({ email: user.email, password: user.password })),
-            catchError((error) => {
-                this.toast.error(errorMessage.GENERIC);
+            catchError((error: ErrorDTO) => {
+                this.toast.error(errorMessage[error.errorCode]);
                 return throwError(() => error);
             })
         );
@@ -65,10 +65,8 @@ export class AuthService {
             tap((response) => {
                 this.setAuth(response as User);
             }),
-            catchError((error) => {
-                if (error.statusCode === 404) {
-                    this.toast.error(errorMessage.LOGIN_CREDENTIALS);
-                }
+            catchError((error: ErrorDTO) => {
+                this.toast.error(errorMessage[error.errorCode]);
                 return throwError(() => error);
             })
         );
@@ -80,8 +78,8 @@ export class AuthService {
                 this.currentUserSubject.next(updatedUser);
                 this.toast.success(successMessage.PROFILE_UPDATE);
             }),
-            catchError((error) => {
-                this.toast.error(errorMessage.GENERIC);
+            catchError((error: ErrorDTO) => {
+                this.toast.error(errorMessage[error.errorCode]);
                 return throwError(() => error);
             })
         );
