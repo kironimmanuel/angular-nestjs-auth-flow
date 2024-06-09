@@ -1,13 +1,13 @@
 import * as bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDTO, UpdateUserDTO, UserResponseDTO } from '@nx-angular-nestjs-authentication/models';
-import crypto from 'crypto';
-import { DeleteResult, Repository } from 'typeorm';
-import { UniqueUserValueException, UserNotFoundException } from '../../shared/exceptions';
-import { MailService } from '../mail/mail.service';
-import { UserEntity } from './user.entity';
+import { DeleteResult, IsNull, Repository } from 'typeorm';
+import { UniqueUserValueException, UserNotFoundException } from '../../../shared/exceptions';
+import { MailService } from '../../mail/services/mail.service';
+import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -22,7 +22,7 @@ export class UserService {
     }
 
     async findById(id: string): Promise<UserEntity> {
-        const user = await this.userRepository.findOneBy({ id });
+        const user = await this.userRepository.findOneBy({ id: id || IsNull() });
         if (!user) {
             throw new UserNotFoundException('user not found with id: ' + id);
         }
@@ -30,7 +30,7 @@ export class UserService {
     }
 
     async findByEmail(email: string): Promise<UserEntity> {
-        const user = await this.userRepository.findOneBy({ email });
+        const user = await this.userRepository.findOneBy({ email: email || IsNull() });
         if (!user) {
             throw new UserNotFoundException('user not found with email: ' + email);
         }
@@ -40,8 +40,8 @@ export class UserService {
     async create(dto: CreateUserDTO): Promise<void> {
         const { username, email } = dto;
 
-        const existingUsername = await this.userRepository.findOneBy({ username });
-        const existingEmail = await this.userRepository.findOneBy({ email });
+        const existingUsername = await this.userRepository.findOneBy({ username: username || IsNull() });
+        const existingEmail = await this.userRepository.findOneBy({ email: email || IsNull() });
 
         if (existingUsername && existingEmail) {
             throw new UniqueUserValueException('username and email must be unique');

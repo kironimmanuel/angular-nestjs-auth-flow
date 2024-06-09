@@ -13,8 +13,7 @@ import { MailService } from '../../services/mail.service';
     styleUrl: './verify-email.component.css',
 })
 export class VerifyEmailComponent implements OnInit {
-    error = false;
-    loading = false;
+    isLoading = false;
     loginRoute = AppRoute.LOGIN;
 
     constructor(private route: ActivatedRoute, private mailService: MailService) {}
@@ -24,24 +23,18 @@ export class VerifyEmailComponent implements OnInit {
     }
 
     verifyUserEmail(): void {
-        this.loading = true;
         const token = this.route.snapshot.queryParamMap.get('token');
         const email = this.route.snapshot.queryParamMap.get('email');
 
         if (!token || !email) {
-            this.error = true;
-            this.loading = false;
             return;
         }
 
+        this.isLoading = true;
+
         this.mailService.verifyEmail(token, email).subscribe({
-            next: () => {
-                this.loading = false;
-            },
-            error: () => {
-                this.error = true;
-                this.loading = false;
-            },
+            next: () => (this.isLoading = false),
+            error: () => (this.isLoading = false),
         });
     }
 }

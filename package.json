@@ -5,6 +5,7 @@
     "scripts": {
         "many": "nx run-many --target=serve --all --maxParallel=10 --parallel",
         "many:clean": "rm -rf database.sqlite && nx run-many --target=serve --all --maxParallel=10 --parallel",
+        "clean": "rm -rf database.sqlite",
         "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
     },
     "private": true,

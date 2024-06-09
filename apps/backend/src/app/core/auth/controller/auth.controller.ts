@@ -17,8 +17,9 @@ import {
     RefreshTokenDTO,
     VerifyEmailDTO,
 } from '@nx-angular-nestjs-authentication/models';
-import { AuthService } from './auth.service';
-import { LocalAuthGuard, RefreshJwtAuthGuard } from './guards';
+import { ResetPasswordDTO } from '../../../../../../../libs/models/src/dto/ResetPassword.dto';
+import { LocalAuthGuard, RefreshJwtAuthGuard } from '../guards';
+import { AuthService } from '../services/auth.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('Auth')
@@ -51,5 +52,19 @@ export class AuthController {
     @Post('refresh-token')
     async refresh(@Request() request, @Body() _: RefreshTokenDTO) {
         return await this.authService.refreshAccessToken(request.body);
+    }
+
+    @ApiOperation({ summary: 'Forgot Password' })
+    @HttpCode(HttpStatus.OK)
+    @Post('forgot-password')
+    async forgotPassword(@Body('email') email: string) {
+        return await this.authService.forgotPassword(email);
+    }
+
+    @ApiOperation({ summary: 'Reset Password' })
+    @HttpCode(HttpStatus.OK)
+    @Post('reset-password')
+    async resetPassword(@Body() resetPasswordDto: ResetPasswordDTO) {
+        return await this.authService.resetPassword(resetPasswordDto);
     }
 }

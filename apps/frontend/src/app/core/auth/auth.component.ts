@@ -67,6 +67,7 @@ export class AuthComponent implements OnInit {
     registerRoute = AppRoute.REGISTER;
     privacyRoute = AppRoute.PRIVACY;
     termsOfServiceRoute = AppRoute.TERMS_OF_SERVICE;
+    forgotPasswordRoute = AppRoute.FORGOT_PASSWORD;
 
     constructor(
         private readonly route: ActivatedRoute,

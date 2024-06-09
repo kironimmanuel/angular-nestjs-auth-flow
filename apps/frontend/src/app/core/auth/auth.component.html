@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-center py-5"><app-loading-spinner /></div>
     </ng-container>
     <ng-template #form>
-        <div class="form-container p-3 shadow-sm rounded-2 bg-body">
+        <div class="form-container p-5 shadow-lg rounded-2 bg-body">
             <ng-container *ngIf="!isVerfiying; else verifyEmail">
                 <h1 class="text-center fs-2 pb-3">{{ title }}</h1>
                 <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
@@ -95,7 +95,9 @@
                             <a [routerLink]="[termsOfServiceRoute]">Terms of Service</a> and
                             <a [routerLink]="[privacyRoute]">Privacy Policy</a>
                         </small>
-
+                        <p class="pt-3">
+                            <a [routerLink]="[forgotPasswordRoute]">Forgot your Password?</a>
+                        </p>
                         <p class="pt-1">
                             @if (authType === 'register') {
                             <a [routerLink]="[loginRoute]">Already have an account?</a>

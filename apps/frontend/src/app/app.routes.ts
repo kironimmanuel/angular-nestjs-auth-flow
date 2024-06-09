@@ -20,6 +20,18 @@ export const appRoutes: Route[] = [
             import('./core/auth/pages/verify-email/verify-email.component').then((m) => m.VerifyEmailComponent),
     },
     {
+        path: 'forgot-password',
+        loadComponent: () =>
+            import('./core/auth/pages/forgot-password/forgot-password.component').then(
+                (m) => m.ForgotPasswordComponent
+            ),
+    },
+    {
+        path: 'reset-password',
+        loadComponent: () =>
+            import('./core/auth/pages/reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
+    },
+    {
         path: 'privacy',
         loadComponent: () => import('./features/privacy/privacy.component').then((m) => m.PrivacyComponent),
     },

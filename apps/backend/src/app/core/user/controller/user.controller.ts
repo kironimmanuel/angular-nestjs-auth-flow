@@ -15,8 +15,8 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserDTO, UpdateUserDTO, UserResponseDTO } from '@nx-angular-nestjs-authentication/models';
-import { JwtAuthGuard } from '../auth/guards';
-import { UserService } from './user.service';
+import { JwtAuthGuard } from '../../auth/guards';
+import { UserService } from '../services/user.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('Users')

@@ -3,6 +3,6 @@ import { ErrorCode } from '@nx-angular-nestjs-authentication/models';
 
 export class InvalidCredentialsException extends HttpException {
     constructor(message: string) {
-        super({ message, errorCode: ErrorCode.INVALID_CREDENTIALS }, HttpStatus.UNAUTHORIZED);
+        super({ message, errorCode: ErrorCode.INVALID_CREDENTIALS }, HttpStatus.BAD_REQUEST);
     }
 }

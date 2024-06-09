@@ -20,4 +20,10 @@ export class MailService {
             .post(ApiEndpoint.RESEND_VERIFICATION_EMAIL, { email })
             .pipe(catchError((error) => throwError(() => error)));
     }
+
+    sendResetPasswordEmail(email: string): Observable<any> {
+        return this.http
+            .post(ApiEndpoint.FORGOT_PASSWORD, { email })
+            .pipe(catchError((error) => throwError(() => error)));
+    }
 }

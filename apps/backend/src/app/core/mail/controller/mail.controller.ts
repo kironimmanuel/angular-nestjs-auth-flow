@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { MailService } from './mail.service';
+import { MailService } from '../services/mail.service';
 
 @Controller()
 export class MailController {

@@ -6,6 +6,7 @@ export const environment = {
     apiUrl: 'http://localhost:3000/api',
     accessTokenLifetime: 1800,
     refreshTokenLifetime: '7d',
+    resetPasswordTokenLifetime: 600000,
 };
 
 /*

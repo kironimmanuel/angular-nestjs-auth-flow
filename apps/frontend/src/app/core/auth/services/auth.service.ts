@@ -91,6 +91,16 @@ export class AuthService {
         this.router.navigate([AppRoute.HOME]);
     }
 
+    resetPassword(newPassword: string, email: string, resetPasswordToken: string): Observable<void> {
+        return this.http
+            .post<void>(ApiEndpoint.RESET_PASSWORD, { password: newPassword, email, resetPasswordToken })
+            .pipe(
+                catchError((error: ErrorDTO) => {
+                    return throwError(() => error);
+                })
+            );
+    }
+
     private setAuth(user: User): void {
         this.jwtService.setAccessTokenToLocalStorage(user.accessToken);
         this.jwtService.setRefreshTokenToLocalStorage(user.refreshToken);

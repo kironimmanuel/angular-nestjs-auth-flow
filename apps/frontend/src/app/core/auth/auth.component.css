@@ -1,11 +1,11 @@
 .auth-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form-container {
-  max-width: 375px;
-  height: min-content !important;
-  height: auto;
+    max-width: 500px;
+    height: min-content !important;
+    height: auto;
 }

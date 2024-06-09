@@ -14,13 +14,14 @@ export class UserEntity {
     @Column({ unique: true, nullable: false })
     email: string;
 
-    @Exclude()
+    // @Exclude()
     @Column({ nullable: false })
     password: string;
 
     @Column({ type: 'text', default: UserRole.USER })
     role: UserRole;
 
+    // @Exclude()
     @Column({ nullable: true })
     verificationToken: string;
 
@@ -29,6 +30,14 @@ export class UserEntity {
 
     @Column({ nullable: true })
     verifiedAt: Date;
+
+    // @Exclude()
+    @Column({ nullable: true })
+    resetPasswordToken: string;
+
+    // @Exclude()
+    @Column({ nullable: true })
+    resetPasswordTokenExpirationDate: Date;
 
     @BeforeInsert()
     async hashPassword() {
