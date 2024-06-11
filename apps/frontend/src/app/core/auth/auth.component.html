@@ -7,14 +7,9 @@
             <ng-container *ngIf="!isVerfiying; else verifyEmail">
                 <h1 class="text-center fs-2 pb-3">{{ title }}</h1>
                 <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-                    <div class="d-flex flex-column gap-2">
+                    <div class="d-flex flex-column gap-3">
                         <ng-container *ngIf="authType === 'register'">
-                            <mat-form-field
-                                appearance="outline"
-                                [ngClass]="{
-                                    'mat-form-field-invalid':
-                                        hasError('username', 'required') || hasError('username', 'maxlength')
-                                }">
+                            <mat-form-field appearance="outline">
                                 <mat-label>Username</mat-label>
                                 <input
                                     matInput
@@ -29,11 +24,7 @@
                             </mat-form-field>
                         </ng-container>
 
-                        <mat-form-field
-                            appearance="outline"
-                            [ngClass]="{
-                                'mat-form-field-invalid': hasError('email', 'required') || hasError('email', 'email')
-                            }">
+                        <mat-form-field appearance="outline">
                             <mat-label>Email</mat-label>
                             <input
                                 matInput
@@ -45,12 +36,7 @@
                             <mat-error *ngIf="hasError('email', 'email')">Invalid email address</mat-error>
                         </mat-form-field>
 
-                        <mat-form-field
-                            appearance="outline"
-                            [ngClass]="{
-                                'mat-form-field-invalid':
-                                    hasError('password', 'required') || hasError('password', 'minlength')
-                            }">
+                        <mat-form-field appearance="outline">
                             <mat-label>Password</mat-label>
                             <input
                                 matInput
@@ -75,7 +61,7 @@
                         </mat-form-field>
                     </div>
                     <div class="py-3 d-flex flex-column gap-2">
-                        <button mat-flat-button color="primary" type="submit">
+                        <button mat-flat-button color="primary" type="submit" [disabled]="!authForm.valid">
                             {{ authType === 'register' ? 'Register' : 'Login' }}
                         </button>
                         <ng-container *ngIf="authType === 'login'">

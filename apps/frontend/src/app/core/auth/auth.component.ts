@@ -99,7 +99,7 @@ export class AuthComponent implements OnInit {
 
     hasError(controlName: keyof AuthFormControls, errorName: string) {
         const control = this.authForm.get(controlName);
-        return control && control.hasError(errorName) && (control.touched || this.isSubmitting);
+        return control && control.hasError(errorName);
     }
 
     onSubmit() {
@@ -119,7 +119,7 @@ export class AuthComponent implements OnInit {
                 } else {
                     void this.router.navigate(['/']);
                 }
-                this.resetForm(this.authForm);
+                this.authForm.reset();
                 this.isSubmitting = false;
                 this.isLoading = false;
             },
@@ -163,16 +163,6 @@ export class AuthComponent implements OnInit {
         } else {
             return this.authService.login(this.authForm.value as LoginUserDTO);
         }
-    }
-
-    private resetForm(form: FormGroup) {
-        form.reset();
-        Object.keys(form.controls).forEach((key) => {
-            const control = form.get(key);
-            if (control) {
-                control.setErrors(null);
-            }
-        });
     }
 
     private generateMockData() {

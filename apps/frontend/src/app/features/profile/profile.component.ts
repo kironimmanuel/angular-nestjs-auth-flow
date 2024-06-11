@@ -83,6 +83,6 @@ export class ProfileComponent {
 
     hasError(controlName: keyof ProfileFormControls, errorName: string) {
         const control = this.profileForm.get(controlName);
-        return control && control.hasError(errorName) && (control.touched || this.isSubmitting);
+        return control && control.hasError(errorName);
     }
 }

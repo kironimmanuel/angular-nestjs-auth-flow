@@ -6,11 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { ErrorDTO } from '@nx-angular-nestjs-authentication/models';
-import { LoadingSpinnerComponent } from 'apps/frontend/src/app/shared/components/loading-spinner/loading-spinner.component';
-import { AppRoute } from 'apps/frontend/src/app/shared/enums';
-import { FormErrorStateMatcher } from 'apps/frontend/src/app/shared/lib';
-import { errorMessage, successMessage } from 'apps/frontend/src/app/shared/notification/messages';
-import { ToastService } from 'apps/frontend/src/app/shared/notification/toast/services/toast.service';
+import { LoadingSpinnerComponent } from './../../../../shared/components/loading-spinner/loading-spinner.component';
+import { AppRoute } from './../../../../shared/enums';
+import { FormErrorStateMatcher } from './../../../../shared/lib/FormErrorStateMatcher';
+import { errorMessage, successMessage } from './../../../../shared/notification/messages';
+import { ToastService } from './../../../../shared/notification/toast/services/toast.service';
 import { MailService } from './../../services/mail.service';
 
 interface ForgotPasswordFormControls {
@@ -63,7 +63,7 @@ export class ForgotPasswordComponent {
                 this.isSubmitting = false;
                 this.isLoading = false;
                 this.isSuccess = true;
-                this.resetForm(this.forgotPasswordForm);
+                this.forgotPasswordForm.reset();
             },
             error: (error: ErrorDTO) => {
                 this.toast.error(errorMessage[error.errorCode]);
@@ -76,14 +76,6 @@ export class ForgotPasswordComponent {
 
     hasError(controlName: keyof ForgotPasswordFormControls, errorName: string) {
         const control = this.forgotPasswordForm.get(controlName);
-        return control && control.hasError(errorName) && (control.touched || this.isSubmitting);
-    }
-
-    private resetForm(form: FormGroup<ForgotPasswordFormControls>): void {
-        form.reset();
-        Object.keys(form.controls).forEach((key) => {
-            const control = form.get(key);
-            control?.setErrors(null);
-        });
+        return control && control.hasError(errorName);
     }
 }
