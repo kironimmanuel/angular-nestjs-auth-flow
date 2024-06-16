@@ -8,7 +8,6 @@ export const tokenInterceptor: HttpInterceptorFn = (request, next) => {
     const jwtService = inject(JwtService);
     const authService = inject(AuthService);
     const accessToken = jwtService.getAccessTokenFromLocalStorage();
-    const refreshToken = jwtService.getRefreshTokenFromLocalStorage();
 
     if (accessToken) {
         request = request.clone({
@@ -20,7 +19,6 @@ export const tokenInterceptor: HttpInterceptorFn = (request, next) => {
 
     return next(request).pipe(
         catchError((error) => {
-            console.log('catchError ~ error:', error);
             if (error.statusCode === 401) {
                 return jwtService.refreshAccessToken().pipe(
                     switchMap((response: { accessToken: string }) => {

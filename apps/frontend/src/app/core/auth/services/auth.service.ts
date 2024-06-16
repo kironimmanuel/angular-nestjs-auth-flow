@@ -79,7 +79,6 @@ export class AuthService {
                 this.toast.success(successMessage.PROFILE_UPDATE);
             }),
             catchError((error: ErrorDTO) => {
-                console.log('AuthService ~ catchError ~ error:', error);
                 this.toast.error(errorMessage[error.errorCode]);
                 return throwError(() => error);
             })

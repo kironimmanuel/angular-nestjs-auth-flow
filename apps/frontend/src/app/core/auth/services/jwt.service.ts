@@ -37,10 +37,6 @@ export class JwtService {
 
     public refreshAccessToken(): Observable<{ accessToken: string }> {
         const refreshToken = this.getRefreshTokenFromLocalStorage();
-        if (!refreshToken) {
-            console.log('JwtService ~ refreshAccessToken ~ refreshToken:', refreshToken);
-            // return throwError(() => new Error(errorMessage.GENERIC));
-        }
 
         return this.http
             .post<{ accessToken: string }>(ApiEndpoint.REFRESH_TOKEN, null, {
