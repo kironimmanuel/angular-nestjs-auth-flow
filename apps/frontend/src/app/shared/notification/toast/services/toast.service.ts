@@ -41,25 +41,25 @@ export class ToastService {
         this.toastSubject.next({ ...data });
     }
 
-    success(data: Toast | string) {
+    public success(data: Toast | string) {
         this.createToast(
             typeof data === 'string' ? { content: data, type: ToastType.SUCCESS } : { ...data, type: ToastType.SUCCESS }
         );
     }
 
-    info(data: Toast | string) {
+    public info(data: Toast | string) {
         this.createToast(
             typeof data === 'string' ? { content: data, type: ToastType.INFO } : { ...data, type: ToastType.INFO }
         );
     }
 
-    warning(data: Toast | string) {
+    public warning(data: Toast | string) {
         this.createToast(
             typeof data === 'string' ? { content: data, type: ToastType.WARNING } : { ...data, type: ToastType.WARNING }
         );
     }
 
-    error(data: Toast | string) {
+    public error(data: Toast | string) {
         this.createToast(
             typeof data === 'string' ? { content: data, type: ToastType.ERROR } : { ...data, type: ToastType.ERROR }
         );

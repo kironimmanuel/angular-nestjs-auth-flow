@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://localhost:3000/api',
+    apiUrl: '<production-url>',
     accessTokenLifetime: 900,
     refreshTokenLifetime: '7d',
     resetPasswordTokenLifetime: 600000,

@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import crypto from 'crypto';
 
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { environment } from '@nx-angular-nestjs-authentication/environments';
@@ -125,7 +125,13 @@ export class AuthService {
         await this.userRepository.save(updatedUser);
     }
 
-    async refreshAccessToken(user: LoginUserDTO): Promise<{ accessToken: string }> {
+    async refreshAccessToken(userId: string): Promise<{ accessToken: string }> {
+        const user = await this.userRepository.findOneBy({ id: userId || IsNull() });
+
+        if (!user) {
+            throw new ForbiddenException('Access Denied');
+        }
+
         const payload: JwtPayloadDTO = JwtPayloadFactory.create(user);
         const accessToken = this.generateJwtToken(payload);
 

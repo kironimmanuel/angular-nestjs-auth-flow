@@ -2,10 +2,12 @@ import {
     Body,
     ClassSerializerInterceptor,
     Controller,
+    Headers,
     HttpCode,
     HttpStatus,
     Post,
     Request,
+    UnauthorizedException,
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
@@ -15,9 +17,10 @@ import {
     LoginUserDTO,
     LoginUserResponseDTO,
     RefreshTokenDTO,
+    ResetPasswordDTO,
     VerifyEmailDTO,
 } from '@nx-angular-nestjs-authentication/models';
-import { ResetPasswordDTO } from '../../../../../../../libs/models/src/dto/ResetPassword.dto';
+import { GetCurrentUserId } from '../../../shared/decorators';
 import { LocalAuthGuard, RefreshJwtAuthGuard } from '../guards';
 import { AuthService } from '../services/auth.service';
 
@@ -40,7 +43,7 @@ export class AuthController {
     @ApiOperation({ summary: 'Verify Email' })
     @ApiResponse({ status: 200, description: 'Email verified' })
     @HttpCode(HttpStatus.OK)
-    @Post('/verify-email')
+    @Post('verify-email')
     async verifyEmail(@Body() verifyEmailDto: VerifyEmailDTO) {
         return await this.authService.verifyEmail(verifyEmailDto);
     }
@@ -50,8 +53,8 @@ export class AuthController {
     @UseGuards(RefreshJwtAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Post('refresh-token')
-    async refresh(@Request() request, @Body() _: RefreshTokenDTO) {
-        return await this.authService.refreshAccessToken(request.body);
+    async refresh(@GetCurrentUserId() userId: string) {
+        return await this.authService.refreshAccessToken(userId);
     }
 
     @ApiOperation({ summary: 'Forgot Password' })

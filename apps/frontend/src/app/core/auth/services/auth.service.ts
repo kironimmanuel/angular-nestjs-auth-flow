@@ -39,7 +39,7 @@ export class AuthService {
         return this.currentUserSubject.value;
     }
 
-    getCurrentUser(): Observable<UserResponseDTO> {
+    public getCurrentUser(): Observable<UserResponseDTO> {
         return this.http.get<UserResponseDTO>(ApiEndpoint.CURRENT_USER).pipe(
             tap({
                 next: (user) => this.currentUserSubject.next(user as User),
@@ -51,7 +51,7 @@ export class AuthService {
         );
     }
 
-    register(user: CreateUserDTO): Observable<CreateUserResponseDTO> {
+    public register(user: CreateUserDTO): Observable<CreateUserResponseDTO> {
         return this.http.post<CreateUserResponseDTO>(ApiEndpoint.REGISTER, user).pipe(
             catchError((error: ErrorDTO) => {
                 this.toast.error(errorMessage[error.errorCode]);
@@ -60,7 +60,7 @@ export class AuthService {
         );
     }
 
-    login(user: LoginUserDTO): Observable<LoginUserResponseDTO> {
+    public login(user: LoginUserDTO): Observable<LoginUserResponseDTO> {
         return this.http.post<LoginUserResponseDTO>(ApiEndpoint.LOGIN, user).pipe(
             tap((response) => {
                 this.setAuth(response as User);
@@ -72,26 +72,27 @@ export class AuthService {
         );
     }
 
-    update(user: UpdateUserDTO): Observable<User> {
+    public update(user: UpdateUserDTO): Observable<User> {
         return this.http.put<User>(`${ApiEndpoint.USERS}/${this.currentUserValue?.id}`, user).pipe(
             tap((updatedUser) => {
                 this.currentUserSubject.next(updatedUser);
                 this.toast.success(successMessage.PROFILE_UPDATE);
             }),
             catchError((error: ErrorDTO) => {
+                console.log('AuthService ~ catchError ~ error:', error);
                 this.toast.error(errorMessage[error.errorCode]);
                 return throwError(() => error);
             })
         );
     }
 
-    logout() {
+    public logout() {
         this.purgeAuth();
         this.dialog.closeAll();
         this.router.navigate([AppRoute.HOME]);
     }
 
-    resetPassword(newPassword: string, email: string, resetPasswordToken: string): Observable<void> {
+    public resetPassword(newPassword: string, email: string, resetPasswordToken: string): Observable<void> {
         return this.http
             .post<void>(ApiEndpoint.RESET_PASSWORD, { password: newPassword, email, resetPasswordToken })
             .pipe(

@@ -8,18 +8,14 @@ import { StrategyKey } from '../../../shared/enums';
 export class RefreshJwtStrategy extends PassportStrategy(Strategy, StrategyKey.REFRESH) {
     constructor() {
         super({
-            jwtFromRequest: ExtractJwt.fromBodyField('refreshToken'),
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
             secretOrKey: process.env.JWT_SECRET,
+            passReqToCallback: true,
         });
     }
 
-    async validate(payload): Promise<JwtPayloadDTO> {
-        return {
-            sub: payload.sub,
-            username: payload.username,
-            email: payload.email,
-            role: payload.role,
-        };
+    async validate(payload: JwtPayloadDTO): Promise<JwtPayloadDTO> {
+        return payload;
     }
 }

@@ -9,19 +9,19 @@ import { ApiEndpoint } from '../../../shared/enums';
 export class MailService {
     constructor(private http: HttpClient) {}
 
-    verifyEmail(token: string, email: string): Observable<any> {
+    public verifyEmail(token: string, email: string): Observable<any> {
         return this.http
             .post(ApiEndpoint.VERIFY_EMAIL, { verificationToken: token, email })
             .pipe(catchError((error) => throwError(() => error)));
     }
 
-    resendVerificationEmail(email: string): Observable<any> {
+    public resendVerificationEmail(email: string): Observable<any> {
         return this.http
             .post(ApiEndpoint.RESEND_VERIFICATION_EMAIL, { email })
             .pipe(catchError((error) => throwError(() => error)));
     }
 
-    sendResetPasswordEmail(email: string): Observable<any> {
+    public sendResetPasswordEmail(email: string): Observable<any> {
         return this.http
             .post(ApiEndpoint.FORGOT_PASSWORD, { email })
             .pipe(catchError((error) => throwError(() => error)));

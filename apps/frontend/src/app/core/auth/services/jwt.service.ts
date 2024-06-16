@@ -14,48 +14,53 @@ export class JwtService {
 
     constructor(private http: HttpClient, private toast: ToastService) {}
 
-    getAccessTokenFromLocalStorage(): string {
+    public getAccessTokenFromLocalStorage(): string {
         return window.localStorage[this.accessTokenKey];
     }
 
-    getRefreshTokenFromLocalStorage(): string {
+    public getRefreshTokenFromLocalStorage(): string {
         return window.localStorage[this.refreshTokenKey];
     }
 
-    setAccessTokenToLocalStorage(accessToken: string): void {
+    public setAccessTokenToLocalStorage(accessToken: string): void {
         window.localStorage[this.accessTokenKey] = accessToken;
     }
 
-    setRefreshTokenToLocalStorage(refreshToken: string): void {
+    public setRefreshTokenToLocalStorage(refreshToken: string): void {
         window.localStorage[this.refreshTokenKey] = refreshToken;
     }
 
-    removeAllTokenFromLocalStorage(): void {
+    public removeAllTokenFromLocalStorage(): void {
         window.localStorage.removeItem(this.accessTokenKey);
         window.localStorage.removeItem(this.refreshTokenKey);
     }
 
-    refreshAccessToken(): Observable<{ accessToken: string }> {
+    public refreshAccessToken(): Observable<{ accessToken: string }> {
         const refreshToken = this.getRefreshTokenFromLocalStorage();
         if (!refreshToken) {
-            this.toast.error(errorMessage.UNAUTHORIZED);
-            return throwError(() => new Error(errorMessage.GENERIC));
+            console.log('JwtService ~ refreshAccessToken ~ refreshToken:', refreshToken);
+            // return throwError(() => new Error(errorMessage.GENERIC));
         }
 
-        return this.http.post<{ accessToken: string }>(ApiEndpoint.REFRESH_TOKEN, { refreshToken }).pipe(
-            map((response) => {
-                this.setAccessTokenToLocalStorage(response.accessToken);
-                return { accessToken: response.accessToken };
-            }),
-            catchError((error: ErrorDTO) => {
-                this.removeAllTokenFromLocalStorage();
-                this.toast.error(errorMessage.GENERIC);
-                return throwError(() => new Error(error.message));
+        return this.http
+            .post<{ accessToken: string }>(ApiEndpoint.REFRESH_TOKEN, null, {
+                headers: {
+                    Authorization: `Bearer ${refreshToken}`,
+                },
             })
-        );
+            .pipe(
+                map((response) => {
+                    this.setAccessTokenToLocalStorage(response.accessToken);
+                    return { accessToken: response.accessToken };
+                }),
+                catchError((error: ErrorDTO) => {
+                    this.removeAllTokenFromLocalStorage();
+                    return throwError(() => error);
+                })
+            );
     }
 
-    getRemainingSessionTime(): number {
+    public getRemainingSessionTime(): number {
         const expirationTime = this.getTokenExpirationTime();
         return expirationTime ? expirationTime - Date.now() : 0;
     }
